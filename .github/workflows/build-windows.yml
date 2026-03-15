@@ -1,0 +1,37 @@
+name: 'Release Windows Installer'
+
+on:
+  push:
+    tags:
+      - 'v*' # เมื่อทำการ push tag ที่ขึ้นต้นด้วย v เช่น v1.0.0 จะรันคำสั่งนี้
+  workflow_dispatch: # หรือสามารถกดรันแบบ Manual ได้ในหน้าเว็บ GitHub
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      - name: Install Frontend Dependencies
+        run: npm install
+
+      - name: Build Tauri and Create Windows Installer
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.ref_name }} # ดึงชื่อ Tag มาตั้งชื่อ Release
+          releaseName: 'Smart Drug Inventory ${{ github.ref_name }}'
+          releaseBody: 'ดาวน์โหลดไฟล์ตัวติดตั้ง .msi หรือ .exe สำหรับ Windows ได้ที่ Assets ด้านล่าง'
+          releaseDraft: true
+          prerelease: false
