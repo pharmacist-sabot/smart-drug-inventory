@@ -20,7 +20,7 @@
 ## โครงสร้างโปรเจกต์
 
 ```
-smart-drug-inventory/
+one-pharm/
 ├── index.html                 ← HTML entry point
 ├── package.json               ← Node dependencies
 ├── vite.config.ts             ← Vite build config
@@ -115,8 +115,8 @@ npx tauri build
 
 | OS      | Path                                                     |
 | ------- | -------------------------------------------------------- |
-| macOS   | `~/Library/Application Support/com.smartdrug.inventory/` |
-| Windows | `%APPDATA%\smartdrug\inventory\data\`                    |
+| macOS   | `~/Library/Application Support/com.onepharm.app/` |
+| Windows | `%APPDATA%\onepharm\app\data\`                      |
 | Linux   | `~/.local/share/inventory/`                              |
 
 ## หน้าจอ

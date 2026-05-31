@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Smart Drug Inventory",
+  "productName": "OnePharm",
   "version": "1.0.0",
-  "identifier": "com.smartdrug.inventory",
+  "identifier": "com.onepharm.app",
   "build": {
     "frontendDist": "../dist",
     "devUrl": "http://localhost:5173",
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "Smart Drug Inventory — ระบบประเมินประสิทธิภาพคลังยา",
+        "title": "OnePharm — ระบบประเมินประสิทธิภาพคลังยา",
         "width": 1440,
         "height": 900,
         "minWidth": 1024,

@@ -1,12 +1,12 @@
 [package]
-name = "smart-drug-inventory"
+name = "one-pharm"
 version = "0.1.0"
 description = "Smart Drug Inventory — Desktop Analytics for INVS"
-authors = ["Suradet Pratomsak"]
+authors = ["rxdevman"]
 license = "MIT"
-repository = ""
-edition = "2021"
-rust-version = "1.77.2"
+repository = "https://github.com/suradet-ps/one-pharm"
+edition = "2024"
+rust-version = "1.85"
 
 [lib]
 name = "app_lib"

@@ -79,7 +79,7 @@ impl Default for AppSettings {
 
 fn settings_path() -> PathBuf {
     let project =
-        directories::ProjectDirs::from("com", "smartdrug", "inventory").unwrap_or_else(|| {
+        directories::ProjectDirs::from("com", "onepharm", "app").unwrap_or_else(|| {
             // Fallback: store next to the executable
             let exe = std::env::current_exe().unwrap_or_else(|_| PathBuf::from("."));
             // `ProjectDirs` expects a valid home dir; if unavailable we fake it.
