@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "tauri": "tauri",
     "build-only": "vite build",
-    "type-check": "vue-tsc --build"
+    "type-check": "vue-tsc --build",
+    "gen-icons": "node scripts/gen-icons.cjs"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.10.1",
@@ -18,6 +19,7 @@
     "vue-router": "^5.0.3"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@tauri-apps/cli": "^2.10.1",
     "@tsconfig/node24": "^24.0.4",
     "@types/node": "^24.11.0",

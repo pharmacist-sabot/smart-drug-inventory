@@ -1,15 +1,26 @@
 <template>
     <div class="grade-ring" :style="{ width: size + 'px', height: size + 'px' }">
         <svg :width="size" :height="size" :viewBox="`0 0 ${size} ${size}`" style="overflow: visible">
-            <circle :cx="size / 2" :cy="size / 2" :r="r" fill="none" stroke="rgba(255,255,255,0.06)"
-                :stroke-width="strokeW" />
-            <circle :cx="size / 2" :cy="size / 2" :r="r" fill="none" :stroke="gradeColor" :stroke-width="strokeW"
-                stroke-linecap="round" :stroke-dasharray="circumference" :stroke-dashoffset="offset"
+            <circle
+                :cx="size / 2" :cy="size / 2" :r="r"
+                fill="none"
+                stroke="var(--color-hairline)"
+                :stroke-width="strokeW"
+            />
+            <circle
+                :cx="size / 2" :cy="size / 2" :r="r"
+                fill="none"
+                :stroke="gradeColor"
+                :stroke-width="strokeW"
+                stroke-linecap="round"
+                :stroke-dasharray="circumference"
+                :stroke-dashoffset="offset"
                 :transform="`rotate(-90 ${size / 2} ${size / 2})`"
-                :style="{ transition: 'stroke-dashoffset 1s cubic-bezier(0.16,1,0.3,1)', filter: `drop-shadow(0 0 5px ${gradeColor}80)` }" />
+                :style="{ transition: 'stroke-dashoffset 1s cubic-bezier(0.16,1,0.3,1)' }"
+            />
         </svg>
         <div class="ring-inner">
-            <span class="ring-score mono">{{ displayScore }}</span>
+            <span class="ring-score">{{ displayScore }}</span>
             <span class="ring-grade" :style="{ color: gradeColor }">{{ grade }}</span>
         </div>
     </div>
@@ -24,8 +35,13 @@ const props = withDefaults(
     { size: 100, strokeW: 6 },
 )
 
-const GRADE_COLORS: Record<Grade, string> = { A: '#22c55e', B: '#84cc16', C: '#f59e0b', D: '#ef4444' }
-const gradeColor = computed(() => GRADE_COLORS[props.grade] ?? '#ef4444')
+const GRADE_COLORS: Record<Grade, string> = {
+    A: '#16a34a',
+    B: '#d97706',
+    C: '#dc2626',
+    D: '#6b7280',
+}
+const gradeColor = computed(() => GRADE_COLORS[props.grade] ?? '#6b7280')
 
 const r = computed(() => props.size / 2 - props.strokeW / 2 - 2)
 const circumference = computed(() => 2 * Math.PI * r.value)
@@ -34,9 +50,7 @@ const animScore = ref(0)
 const offset = computed(() => circumference.value * (1 - animScore.value / 100))
 const displayScore = computed(() => Math.round(animScore.value))
 
-onMounted(() => {
-    setTimeout(() => { animScore.value = props.score }, 120)
-})
+onMounted(() => { setTimeout(() => { animScore.value = props.score }, 120) })
 watch(() => props.score, (v) => { animScore.value = v })
 </script>
 
@@ -57,19 +71,20 @@ watch(() => props.score, (v) => { animScore.value = v })
 }
 
 .ring-score {
+    font-family: var(--font-mono);
     font-size: 26px;
-    font-weight: 600;
-    color: var(--text-primary);
+    font-weight: 500;
+    color: var(--color-ink);
     line-height: 1;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
 }
 
 .ring-grade {
-    font-family: var(--font-display);
-    font-size: 20px;
-    font-weight: 700;
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 500;
     line-height: 1;
     margin-top: 4px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.05em;
 }
 </style>

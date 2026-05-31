@@ -1,10 +1,16 @@
 <template>
-    <div class="filter-bar">
-        <button v-for="f in filters" :key="f.key" class="filter-btn" :class="[f.cls, { active: modelValue === f.key }]"
-            @click="$emit('update:modelValue', f.key)">
-            <span class="filter-dot" />
-            <span>{{ f.label }}</span>
-            <span class="filter-count mono">{{ f.count }}</span>
+    <!-- toggle-pill-group — hairline rail with pill buttons -->
+    <div class="toggle-group-rail">
+        <button
+            v-for="f in filters"
+            :key="f.key"
+            class="toggle-pill"
+            :class="[f.cls, { active: modelValue === f.key }]"
+            @click="$emit('update:modelValue', f.key)"
+        >
+            <span class="pill-dot" />
+            <span class="pill-label">{{ f.label }}</span>
+            <span class="pill-count">{{ f.count }}</span>
         </button>
     </div>
 </template>
@@ -22,108 +28,82 @@ defineEmits<{ 'update:modelValue': [value: string] }>()
 </script>
 
 <style scoped>
-.filter-bar {
+/* toggle-pill-group rail */
+.toggle-group-rail {
     display: flex;
-    gap: 10px;
+    gap: var(--space-xs);
     flex-wrap: wrap;
+    padding: var(--space-xs);
+    background: var(--color-hairline);
+    border-radius: var(--rounded-sm);
+    width: fit-content;
 }
 
-.filter-btn {
-    display: flex;
+.toggle-pill {
+    display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    background: var(--bg-elevated);
-    border: 1px solid var(--border-soft);
-    border-radius: 20px;
-    font-family: var(--font-body);
-    font-size: 13px;
+    gap: var(--space-sm);
+    padding: 6px var(--space-lg);
+    background: var(--color-canvas);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-xs);
+    font-family: var(--font-mono);
+    font-size: 11px;
     font-weight: 500;
-    color: var(--text-secondary);
+    letter-spacing: 0.08px;
+    text-transform: uppercase;
+    color: var(--color-body);
     cursor: pointer;
     transition: all var(--dur-fast) var(--ease);
     white-space: nowrap;
 }
 
-.filter-btn:hover {
-    color: var(--text-primary);
-    border-color: var(--border-med);
+.toggle-pill:hover {
+    color: var(--color-ink);
+    border-color: #cccccc;
 }
 
-.filter-btn.active {
-    background: var(--bg-overlay);
-    color: var(--text-primary);
+.toggle-pill.active {
+    background: var(--color-primary);
+    color: #ffffff;
+    border-color: var(--color-primary);
 }
 
-.filter-dot {
-    width: 7px;
-    height: 7px;
+/* Dot indicators */
+.pill-dot {
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
-    background: var(--text-muted);
+    background: currentColor;
+    opacity: 0.5;
     flex-shrink: 0;
 }
 
-.filter-btn.all .filter-dot {
-    background: var(--text-secondary);
-}
+.toggle-pill.active .pill-dot { opacity: 0.8; }
 
-.filter-btn.danger .filter-dot {
-    background: var(--status-danger);
-}
+/* variant dot colors (inactive state) */
+.toggle-pill.danger .pill-dot { background: var(--status-danger); opacity: 1; }
+.toggle-pill.warn   .pill-dot { background: var(--status-warn);   opacity: 1; }
+.toggle-pill.ok     .pill-dot { background: var(--status-ok);     opacity: 1; }
+.toggle-pill.info   .pill-dot { background: var(--status-info);   opacity: 1; }
+.toggle-pill.dead   .pill-dot { background: #7c3aed;              opacity: 1; }
 
-.filter-btn.warn .filter-dot {
-    background: var(--status-warn);
-}
+/* active state overrides pill-dot color */
+.toggle-pill.active .pill-dot { background: #ffffff; }
 
-.filter-btn.ok .filter-dot {
-    background: var(--status-ok);
-}
+.pill-label { flex: 1; }
 
-.filter-btn.info .filter-dot {
-    background: var(--status-info);
-}
-
-.filter-btn.dead .filter-dot {
-    background: #a855f7;
-}
-
-.filter-btn.danger.active {
-    border-color: rgba(239, 68, 68, 0.4);
-    background: rgba(239, 68, 68, 0.08);
-    color: var(--status-danger);
-}
-
-.filter-btn.warn.active {
-    border-color: rgba(245, 158, 11, 0.4);
-    background: rgba(245, 158, 11, 0.08);
-    color: var(--status-warn);
-}
-
-.filter-btn.ok.active {
-    border-color: rgba(34, 197, 94, 0.4);
-    background: rgba(34, 197, 94, 0.08);
-    color: var(--status-ok);
-}
-
-.filter-btn.info.active {
-    border-color: rgba(59, 130, 246, 0.4);
-    background: rgba(59, 130, 246, 0.08);
-    color: var(--status-info);
-}
-
-.filter-btn.dead.active {
-    border-color: rgba(168, 85, 247, 0.4);
-    background: rgba(168, 85, 247, 0.08);
-    color: #a855f7;
-}
-
-.filter-count {
-    background: rgba(255, 255, 255, 0.06);
-    border-radius: 10px;
-    padding: 2px 8px;
-    font-size: 11px;
+.pill-count {
     font-family: var(--font-mono);
-    min-width: 24px;
+    font-size: 10px;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: var(--rounded-full);
+    padding: 1px 6px;
+    min-width: 20px;
     text-align: center;
+}
+
+.toggle-pill.active .pill-count {
+    background: rgba(255, 255, 255, 0.2);
 }
 </style>

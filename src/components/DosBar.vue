@@ -30,7 +30,7 @@ const fillPct = computed(() => {
 })
 
 const colorMap: Record<DosStatus, string> = {
-    stockout_risk: '#ef4444', low_stock: '#f59e0b', normal: '#22c55e', overstock: '#3b82f6',
+    stockout_risk: '#dc2626', low_stock: '#d97706', normal: '#16a34a', overstock: '#2563eb',
 }
 const color = computed(() => colorMap[props.status] || '#8b9ab0')
 
@@ -52,7 +52,7 @@ const dosDisplay = computed(() =>
 .dos-track {
     position: relative;
     height: 5px;
-    background: var(--bg-overlay);
+    background: var(--color-hairline);
     border-radius: 3px;
     overflow: visible;
     margin-bottom: 6px;
@@ -70,7 +70,7 @@ const dosDisplay = computed(() =>
     top: -2px;
     width: 1px;
     height: 9px;
-    background: rgba(255, 255, 255, 0.15);
+    background: #d1d5db;
 }
 
 .zone-marker span {
@@ -80,7 +80,7 @@ const dosDisplay = computed(() =>
     transform: translateX(-50%);
     font-family: var(--font-mono);
     font-size: 9px;
-    color: var(--text-muted);
+    color: var(--color-body);
     white-space: nowrap;
 }
 
@@ -92,12 +92,15 @@ const dosDisplay = computed(() =>
 }
 
 .dos-status-label {
+    font-family: var(--font-mono);
     font-size: 11px;
     font-weight: 500;
+    letter-spacing: 0.04em;
 }
 
 .dos-value {
+    font-family: var(--font-mono);
     font-size: 11px;
-    color: var(--text-secondary);
+    color: var(--color-body);
 }
 </style>

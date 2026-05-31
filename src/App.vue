@@ -1,63 +1,83 @@
 <template>
     <div class="app-shell">
-        <!-- Ambient background -->
-        <div class="ambient" aria-hidden="true">
-            <div class="ambient-orb orb-1" />
-            <div class="ambient-orb orb-2" />
-            <div class="grid-lines" />
-        </div>
-
-        <!-- Sidebar -->
+        <!-- Sidebar (canvas-dark band) -->
         <aside class="sidebar">
+            <!-- Logo -->
             <div class="sidebar-logo">
-                <div class="logo-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                        <path d="M12 2L2 7v10l10 5 10-5V7L12 2z" stroke="currentColor" stroke-width="1.5"
-                            stroke-linejoin="round" />
-                        <path d="M12 22V12M2 7l10 5 10-5" stroke="currentColor" stroke-width="1.5" />
+                <div class="logo-mark">
+                    <!-- Pharmacy pill logo from public/logo.svg -->
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <radialGradient id="sb_bg" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+                                <stop offset="0%" stop-color="#ffffff"/>
+                                <stop offset="100%" stop-color="#cbd5e1"/>
+                            </radialGradient>
+                            <linearGradient id="sb_pill_g" x1="9" y1="7" x2="15" y2="7" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#10b981"/>
+                                <stop offset="50%" stop-color="#34d399"/>
+                                <stop offset="100%" stop-color="#059669"/>
+                            </linearGradient>
+                            <linearGradient id="sb_pill_y" x1="9" y1="12" x2="15" y2="12" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#f59e0b"/>
+                                <stop offset="50%" stop-color="#fbbf24"/>
+                                <stop offset="100%" stop-color="#d97706"/>
+                            </linearGradient>
+                        </defs>
+                        <circle cx="12" cy="12" r="11.5" fill="url(#sb_bg)" />
+                        <circle cx="12" cy="12" r="11.5" stroke="#94a3b8" stroke-width="0.2" opacity="0.5"/>
+                        <g opacity="0.9">
+                            <path d="M12 2C6.48 2 2 6.48 2 12" stroke="#ef4444" stroke-width="2.8" stroke-linecap="round"/>
+                            <path d="M2 12C2 17.52 6.48 22 12 22" stroke="#f59e0b" stroke-width="2.8" stroke-linecap="round"/>
+                            <path d="M12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2" stroke="#10b981" stroke-width="3.8" stroke-linecap="round"/>
+                        </g>
+                        <rect x="9" y="7" width="6" height="10" rx="3" fill="url(#sb_pill_g)" />
+                        <path d="M9 12H15V14C15 15.6569 13.6569 17 12 17C10.3431 17 9 15.6569 9 14V12Z" fill="url(#sb_pill_y)" />
+                        <rect x="10" y="8" width="1.2" height="3" rx="0.6" fill="white" opacity="0.4" />
                     </svg>
                 </div>
                 <div class="logo-text">
-                    <span class="logo-main">PHARMA</span>
-                    <span class="logo-sub">ANALYTICS</span>
+                    <span class="logo-name">ONE PHARM</span>
+                    <span class="logo-sub">SMART INVENTORY</span>
                 </div>
-                <!-- spacer keeps logo row taller on HiDPI -->
             </div>
 
+            <!-- Brand gradient divider -->
+            <div class="gradient-rule" aria-hidden="true" />
+
+            <!-- Navigation -->
             <nav class="sidebar-nav">
+                <span class="nav-section-label">NAVIGATION</span>
+
                 <router-link to="/" class="nav-item" active-class="active" exact-active-class="active">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="1.8">
-                        <rect x="3" y="3" width="7" height="7" rx="1.5" />
-                        <rect x="14" y="3" width="7" height="7" rx="1.5" />
-                        <rect x="3" y="14" width="7" height="7" rx="1.5" />
-                        <rect x="14" y="14" width="7" height="7" rx="1.5" />
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1.5"/>
                     </svg>
-                    <span>Dashboard</span>
+                    <span>DASHBOARD</span>
                 </router-link>
 
                 <router-link to="/settings" class="nav-item" active-class="active">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="1.8">
-                        <circle cx="12" cy="12" r="3" />
-                        <path
-                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
                     </svg>
-                    <span>ตั้งค่า</span>
+                    <span>SETTINGS</span>
                 </router-link>
             </nav>
 
+            <!-- Sidebar footer -->
             <div class="sidebar-footer">
-                <div class="version-badge">v1.0.0</div>
-                <div class="sidebar-label">Smart Drug Inventory</div>
                 <div class="db-status" :class="dbStatusClass">
-                    <span class="dot" />
-                    <span>{{ dbStatusText }}</span>
+                    <span class="db-dot" />
+                    <span class="db-label">{{ dbStatusText }}</span>
                 </div>
+                <div class="version-label">v1.0.0</div>
             </div>
         </aside>
 
-        <!-- Main content -->
+        <!-- Main content (canvas — light surface) -->
         <main class="main-content">
             <router-view v-slot="{ Component }">
                 <transition name="page" mode="out-in">
@@ -72,7 +92,6 @@
 import { ref, computed, onMounted } from 'vue'
 import { healthCheck } from '@/api'
 
-// null = checking, true = ok, false = offline
 const dbOk = ref<boolean | null>(null)
 const dbChecking = ref(false)
 
@@ -82,15 +101,14 @@ const dbStatusClass = computed(() => {
 })
 
 const dbStatusText = computed(() => {
-    if (dbOk.value === null) return 'Checking...'
-    if (dbOk.value) return 'Connected'
-    return 'Offline'
+    if (dbOk.value === null) return 'CHECKING...'
+    if (dbOk.value) return 'CONNECTED'
+    return 'OFFLINE'
 })
 
 async function checkDb() {
     if (dbChecking.value) return
     dbChecking.value = true
-    // Reset to null (checking) while we re-probe
     dbOk.value = null
     try {
         const h = await healthCheck()
@@ -102,72 +120,28 @@ async function checkDb() {
     }
 }
 
-// Called by Settings page after a successful save so we re-check connectivity
-// with the newly-saved credentials immediately.
 async function onSettingsSaved() {
-    // Small delay to allow the backend to pick up the new config
     await new Promise((r) => setTimeout(r, 400))
     await checkDb()
 }
 
-onMounted(() => {
-    checkDb()
-})
+onMounted(() => { checkDb() })
 </script>
 
 <style scoped>
+/* ── App shell ── */
 .app-shell {
     display: flex;
     min-height: 100vh;
-    position: relative;
+    background: var(--color-canvas);
 }
 
-/* ── Ambient background ── */
-.ambient {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-}
-
-.ambient-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(120px);
-    opacity: 0.06;
-}
-
-.orb-1 {
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, #00d4b8, transparent 70%);
-    top: -200px;
-    left: -100px;
-}
-
-.orb-2 {
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, #3b82f6, transparent 70%);
-    bottom: -100px;
-    right: 10%;
-}
-
-.grid-lines {
-    position: absolute;
-    inset: 0;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-    background-size: 40px 40px;
-}
-
-/* ── Sidebar ── */
+/* ── Sidebar (canvas-dark band) ── */
 .sidebar {
-    width: 234px;
+    width: 220px;
     min-height: 100vh;
-    background: var(--bg-surface);
-    border-right: 1px solid var(--border-soft);
+    background: var(--color-canvas-dark);
+    border-right: 1px solid var(--color-surface-dark-soft);
     display: flex;
     flex-direction: column;
     position: sticky;
@@ -177,24 +151,19 @@ onMounted(() => {
     flex-shrink: 0;
 }
 
+/* Logo area */
 .sidebar-logo {
     display: flex;
     align-items: center;
-    gap: 13px;
-    padding: 26px 22px 22px;
-    border-bottom: 1px solid var(--border-dim);
+    gap: 12px;
+    padding: 24px 20px 20px;
 }
 
-.logo-icon {
-    width: 40px;
-    height: 40px;
-    background: var(--accent-dim);
-    border: 1px solid rgba(0, 212, 184, 0.2);
-    border-radius: var(--radius-sm);
-    display: grid;
-    place-items: center;
-    color: var(--accent);
+.logo-mark {
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .logo-text {
@@ -203,75 +172,91 @@ onMounted(() => {
     line-height: 1;
 }
 
-.logo-main {
-    font-family: var(--font-display);
-    font-size: 14px;
-    font-weight: 700;
+.logo-name {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
     letter-spacing: 0.15em;
-    color: var(--text-primary);
+    color: var(--color-on-dark);
 }
 
 .logo-sub {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 400;
-    letter-spacing: 0.2em;
-    color: var(--text-muted);
-    margin-top: 3px;
+    letter-spacing: 0.12em;
+    color: var(--color-on-dark-muted);
+    margin-top: 4px;
 }
 
+/* Brand gradient divider — orange → magenta → periwinkle */
+.gradient-rule {
+    height: 2px;
+    background: linear-gradient(90deg,
+        var(--color-accent-orange),
+        var(--color-accent-magenta),
+        var(--color-accent-periwinkle)
+    );
+    flex-shrink: 0;
+}
+
+/* Nav */
 .sidebar-nav {
-    padding: 18px 14px;
+    padding: 20px 12px;
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 2px;
+}
+
+.nav-section-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.55px;
+    text-transform: uppercase;
+    color: var(--color-on-dark-muted);
+    padding: 0 10px;
+    margin-bottom: 8px;
+    display: block;
 }
 
 .nav-item {
     display: flex;
     align-items: center;
-    gap: 11px;
-    padding: 11px 14px;
-    border-radius: var(--radius-sm);
-    color: var(--text-secondary);
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--rounded-sm);
+    color: var(--color-on-dark-muted);
     text-decoration: none;
-    font-size: 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
     font-weight: 500;
-    transition: all var(--dur-fast) var(--ease);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
     border: 1px solid transparent;
 }
 
 .nav-item:hover {
-    color: var(--text-primary);
-    background: var(--bg-hover);
+    color: var(--color-on-dark);
+    background: rgba(255, 255, 255, 0.06);
     text-decoration: none;
 }
 
 .nav-item.active {
-    color: var(--accent);
-    background: var(--accent-glow);
-    border: 1px solid rgba(0, 212, 184, 0.15);
+    color: var(--color-on-dark);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.12);
 }
 
+/* Sidebar footer */
 .sidebar-footer {
-    padding: 18px 22px;
-    border-top: 1px solid var(--border-dim);
-}
-
-.sidebar-label {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-bottom: 8px;
-    font-family: var(--font-mono);
-}
-
-.version-badge {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-muted);
-    margin-bottom: 5px;
-    opacity: 0.5;
+    padding: 16px 20px;
+    border-top: 1px solid var(--color-surface-dark-soft);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .db-status {
@@ -279,75 +264,49 @@ onMounted(() => {
     align-items: center;
     gap: 7px;
     font-family: var(--font-mono);
-    font-size: 12px;
-    transition: color 0.3s ease;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
 }
 
-.db-status.ok {
-    color: var(--status-ok);
-}
+.db-status.ok    { color: #4ade80; }
+.db-status.err   { color: #f87171; }
+.db-status.checking { color: var(--color-on-dark-muted); }
 
-.db-status.err {
-    color: var(--status-danger);
-}
-
-.db-status.checking {
-    color: var(--text-muted);
-}
-
-.dot {
-    width: 7px;
-    height: 7px;
+.db-dot {
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background: currentColor;
     flex-shrink: 0;
-    transition: background 0.3s ease;
 }
 
-.db-status.ok .dot {
-    animation: pulse-ring 2s ease-in-out infinite;
+.db-status.ok .db-dot {
+    animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.db-label { text-transform: uppercase; }
+
+.version-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--color-on-dark-muted);
+    opacity: 0.4;
 }
 
 /* ── Main content ── */
 .main-content {
     flex: 1;
     min-width: 0;
-    position: relative;
-    z-index: 1;
+    background: var(--color-canvas);
+    overflow-y: auto;
 }
 
-/* ── Page transition ── */
+/* ── Page transitions ── */
 .page-enter-active,
 .page-leave-active {
-    transition:
-        opacity 200ms ease,
-        transform 200ms ease;
+    transition: opacity 0.18s var(--ease), transform 0.18s var(--ease);
 }
-
-.page-enter-from {
-    opacity: 0;
-    transform: translateY(8px);
-}
-
-.page-leave-to {
-    opacity: 0;
-    transform: translateY(-4px);
-}
-
-@keyframes pulse-ring {
-    0% {
-        transform: scale(0.8);
-        box-shadow: 0 0 0 0 rgba(0, 212, 184, 0.7);
-    }
-
-    70% {
-        transform: scale(1);
-        box-shadow: 0 0 0 10px rgba(0, 212, 184, 0);
-    }
-
-    100% {
-        transform: scale(0.8);
-        box-shadow: 0 0 0 0 rgba(0, 212, 184, 0);
-    }
-}
+.page-enter-from { opacity: 0; transform: translateY(6px); }
+.page-leave-to   { opacity: 0; transform: translateY(-4px); }
 </style>
