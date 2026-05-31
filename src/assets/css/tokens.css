@@ -1,0 +1,135 @@
+:root {
+    /* ── Brand Colors ── */
+    --color-canvas-dark: #010120;
+    --color-canvas: #ffffff;
+    --color-hairline: #ebebeb;
+    --color-surface-dark-soft: #26263a;
+    --color-surface-dark-elevated: #313641;
+    --color-primary: #000000;
+    --color-accent-orange: #fc4c02;
+    --color-accent-magenta: #ef2cc1;
+    --color-accent-periwinkle: #bdbbff;
+    --color-accent-mint: #c8f6f9;
+
+    /* ── Text Colors ── */
+    --color-ink: #000000;
+    --color-secondary: #555555;
+    --color-body: #767676;
+    --color-on-dark: #ffffff;
+    --color-on-dark-muted: rgba(255, 255, 255, 0.55);
+
+    /* ── Semantic Status ── */
+    --status-ok: #15803d;
+    --status-ok-bg: #dcfce7;
+    --status-warn: #b45309;
+    --status-warn-bg: #fef3c7;
+    --status-danger: #b91c1c;
+    --status-danger-bg: #fee2e2;
+    --status-info: #1d4ed8;
+    --status-info-bg: #dbeafe;
+
+    /* ── Tile Tints ── */
+    --tile-danger-bg: #ffe4e6;
+    --tile-warn-bg: var(--status-warn-bg);
+    --tile-ok-bg: var(--color-accent-mint);
+    --tile-info-bg: var(--color-accent-periwinkle);
+
+    /* ── Grade Colors ── */
+    --grade-a: var(--status-ok);
+    --grade-a-bg: var(--status-ok-bg);
+    --grade-b: var(--status-warn);
+    --grade-b-bg: var(--status-warn-bg);
+    --grade-c: var(--status-danger);
+    --grade-c-bg: var(--status-danger-bg);
+    --grade-d: #5f6878;
+    --grade-d-bg: var(--color-hairline);
+
+    /* ── Interaction ── */
+    --color-hover-bg: #f9fafb;
+    --color-hover-border: #888888;
+    --color-disabled-bg: #f9fafb;
+    --color-elevated-bg: #f3f4f6;
+    --color-overlay-bg: #e5e7eb;
+    --color-toggle-track: #e5e7eb;
+
+    --green-400: #4ade80;
+    --red-400: #f87171;
+    --violet-600: #7c3aed;
+
+    /* ── Typography ── */
+    --font-display: "Inter", "Noto Sans Thai", sans-serif;
+    --font-mono: "JetBrains Mono", "DM Mono", monospace;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+    --line-height-tight: 1.25;
+    --line-height-normal: 1.6;
+    --line-height-relaxed: 1.5;
+    --tracking-display: -0.02em;
+    --tracking-body: -0.01em;
+    --tracking-mono: 0.08em;
+
+    /* ── Spacing (4px base) ── */
+    --space-xxs: 2px;
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 12px;
+    --space-lg: 16px;
+    --space-xl: 20px;
+    --space-2xl: 24px;
+    --space-3xl: 32px;
+    --space-4xl: 44px;
+    --space-5xl: 48px;
+    --space-section: 80px;
+
+    /* ── Border Radius ── */
+    --rounded-none: 0px;
+    --rounded-xs: 3.25px;
+    --rounded-sm: 4px;
+    --rounded-md: 8px;
+    --rounded-full: 9999px;
+
+    /* ── Z-Index ── */
+    --z-sidebar: 10;
+    --z-sticky: 100;
+    --z-overlay: 200;
+    --z-modal: 300;
+    --z-toast: 400;
+
+    /* ── Motion ── */
+    --dur-fast: 0.15s;
+    --dur-normal: 0.25s;
+    --dur-slow: 0.5s;
+    --dur-spring: 0.9s;
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
+
+    /* ── Opacity ── */
+    --opacity-disabled: 0.4;
+    --opacity-muted: 0.6;
+    --opacity-hover: 0.85;
+
+    /* ── Layout ── */
+    --sidebar-width: 220px;
+    --content-max-width: 1280px;
+    --content-max-width-narrow: 860px;
+    --db-dot-size: 6px;
+
+    /* ── Component Tokens ── */
+    --btn-font: var(--font-mono);
+    --btn-weight: var(--font-weight-medium);
+    --btn-radius: var(--rounded-sm);
+}
+
+/* ── Reference: Breakpoints ──
+   Mobile:        < 480px
+   Mobile-Large:  480-767px
+   Tablet:        768-991px
+   Desktop:       992-1279px
+   Desktop-Large: ≥ 1280px
+   (CSS vars cannot be used in @media queries; listed for documentation.)
+   ── */

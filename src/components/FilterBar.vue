@@ -28,7 +28,6 @@ defineEmits<{ 'update:modelValue': [value: string] }>()
 </script>
 
 <style scoped>
-/* toggle-pill-group rail */
 .toggle-group-rail {
     display: flex;
     gap: var(--space-xs);
@@ -49,7 +48,7 @@ defineEmits<{ 'update:modelValue': [value: string] }>()
     border-radius: var(--rounded-xs);
     font-family: var(--font-mono);
     font-size: 11px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     letter-spacing: 0.08px;
     text-transform: uppercase;
     color: var(--color-body);
@@ -60,7 +59,7 @@ defineEmits<{ 'update:modelValue': [value: string] }>()
 
 .toggle-pill:hover {
     color: var(--color-ink);
-    border-color: #cccccc;
+    border-color: var(--color-hover-border);
 }
 
 .toggle-pill.active {
@@ -69,7 +68,6 @@ defineEmits<{ 'update:modelValue': [value: string] }>()
     border-color: var(--color-primary);
 }
 
-/* Dot indicators */
 .pill-dot {
     width: 6px;
     height: 6px;
@@ -81,14 +79,12 @@ defineEmits<{ 'update:modelValue': [value: string] }>()
 
 .toggle-pill.active .pill-dot { opacity: 0.8; }
 
-/* variant dot colors (inactive state) */
 .toggle-pill.danger .pill-dot { background: var(--status-danger); opacity: 1; }
 .toggle-pill.warn   .pill-dot { background: var(--status-warn);   opacity: 1; }
 .toggle-pill.ok     .pill-dot { background: var(--status-ok);     opacity: 1; }
 .toggle-pill.info   .pill-dot { background: var(--status-info);   opacity: 1; }
-.toggle-pill.dead   .pill-dot { background: #7c3aed;              opacity: 1; }
+.toggle-pill.dead   .pill-dot { background: var(--violet-600);    opacity: 1; }
 
-/* active state overrides pill-dot color */
 .toggle-pill.active .pill-dot { background: #ffffff; }
 
 .pill-label { flex: 1; }

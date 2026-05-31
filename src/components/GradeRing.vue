@@ -73,7 +73,7 @@ watch(() => props.score, (v) => { animScore.value = v })
 .ring-score {
     font-family: var(--font-mono);
     font-size: 26px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     color: var(--color-ink);
     line-height: 1;
     letter-spacing: -0.03em;
@@ -82,7 +82,7 @@ watch(() => props.score, (v) => { animScore.value = v })
 .ring-grade {
     font-family: var(--font-mono);
     font-size: 18px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     line-height: 1;
     margin-top: 4px;
     letter-spacing: 0.05em;

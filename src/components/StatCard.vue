@@ -27,7 +27,6 @@ withDefaults(
 </script>
 
 <style scoped>
-/* stats-card-tinted — pastel tinted stat tile */
 .stat-tile {
     background: var(--color-hairline);
     border: 1px solid transparent;
@@ -55,14 +54,13 @@ withDefaults(
     border-color: rgba(37, 99, 235, 0.15);
 }
 
-/* eyebrow row */
 .tile-eyebrow {
     display: flex;
     align-items: center;
     gap: var(--space-sm);
     font-family: var(--font-mono);
     font-size: 11px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     letter-spacing: 0.55px;
     text-transform: uppercase;
     color: var(--color-body);
@@ -74,13 +72,11 @@ withDefaults(
     opacity: 0.7;
 }
 
-/* tinted icon tones */
 .stat-tile.danger .tile-eyebrow { color: var(--status-danger); }
 .stat-tile.warn   .tile-eyebrow { color: var(--status-warn); }
 .stat-tile.ok     .tile-eyebrow { color: var(--status-ok); }
 .stat-tile.info   .tile-eyebrow { color: var(--status-info); }
 
-/* value row */
 .tile-body {
     display: flex;
     align-items: baseline;
@@ -90,7 +86,7 @@ withDefaults(
 .tile-value {
     font-family: var(--font-mono);
     font-size: 40px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     line-height: 1;
     letter-spacing: -0.8px;
     color: var(--color-ink);
@@ -102,7 +98,6 @@ withDefaults(
     color: var(--color-body);
 }
 
-/* sub text */
 .tile-sub {
     font-family: var(--font-display);
     font-size: 13px;

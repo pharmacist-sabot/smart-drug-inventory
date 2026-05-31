@@ -1,0 +1,100 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+body {
+    font-family: var(--font-display);
+    font-size: 16px;
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    line-height: var(--line-height-normal);
+    overflow-x: hidden;
+    letter-spacing: var(--tracking-body);
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+main,
+.main-content,
+table,
+input,
+textarea,
+pre,
+code {
+    user-select: text;
+    -webkit-user-select: text;
+}
+
+input,
+select,
+textarea,
+button {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+    border-radius: var(--rounded-xs);
+}
+
+a {
+    color: var(--color-ink);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-hairline);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-hover-border);
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-hairline) transparent;
+}

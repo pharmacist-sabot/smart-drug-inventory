@@ -130,7 +130,6 @@ const gradeColor = (g: Grade): string => {
     flex-direction: column;
 }
 
-/* toolbar */
 .table-toolbar {
     display: flex;
     align-items: center;
@@ -165,23 +164,20 @@ const gradeColor = (g: Grade): string => {
     letter-spacing: 0.05px;
 }
 
-/* table scroll */
 .table-scroll { overflow-x: auto; }
 
-/* data-table */
 .drug-table {
     width: 100%;
     border-collapse: collapse;
 }
 
-/* data-table-header */
 .drug-table th {
     padding: var(--space-md) var(--space-lg);
     text-align: left;
     background: var(--color-hairline);
     font-family: var(--font-mono);
     font-size: 11px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     text-transform: uppercase;
     letter-spacing: 0.55px;
     color: var(--color-body);
@@ -194,9 +190,8 @@ const gradeColor = (g: Grade): string => {
 .drug-table th.sortable { cursor: pointer; }
 .drug-table th.sortable:hover { color: var(--color-ink); }
 
-/* data-table-row */
 .drug-row { cursor: pointer; }
-.drug-row:hover td { background: #f9fafb; }
+.drug-row:hover td { background: var(--color-hover-bg); }
 .drug-row:hover td:first-child { border-left: 2px solid var(--color-ink); padding-left: calc(var(--space-lg) - 2px); }
 
 .drug-table td {
@@ -210,7 +205,6 @@ const gradeColor = (g: Grade): string => {
 
 .drug-table td.num { text-align: right; }
 
-/* drug name cell */
 .drug-name-cell {
     display: flex;
     align-items: center;
@@ -224,18 +218,17 @@ const gradeColor = (g: Grade): string => {
     text-overflow: ellipsis;
 }
 
-/* badges */
 .dead-badge {
     font-family: var(--font-mono);
     font-size: 9px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     padding: 2px 6px;
     border-radius: var(--rounded-xs);
     background: var(--status-danger-bg);
     color: var(--status-danger);
     border: 1px solid rgba(220, 38, 38, 0.25);
     flex-shrink: 0;
-    letter-spacing: 0.08em;
+    letter-spacing: var(--tracking-mono);
     text-transform: uppercase;
 }
 
@@ -245,16 +238,15 @@ const gradeColor = (g: Grade): string => {
     color: var(--color-body);
 }
 
-/* badge-neutral style status chips */
 .status-chip {
     font-family: var(--font-mono);
     font-size: 10px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     padding: 3px 8px;
     border-radius: var(--rounded-sm);
     white-space: nowrap;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: var(--tracking-mono);
     background: var(--color-hairline);
     color: var(--color-body);
     border: 1px solid var(--color-hairline);
@@ -265,16 +257,14 @@ const gradeColor = (g: Grade): string => {
 .status-chip.normal        { background: var(--status-ok-bg);     color: var(--status-ok);     border-color: rgba(22,163,74,.2); }
 .status-chip.overstock     { background: var(--status-info-bg);   color: var(--status-info);   border-color: rgba(37,99,235,.2); }
 
-/* score bar */
 .score-cell { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
 .score-bar-bg { width: 48px; height: 3px; background: var(--color-hairline); border-radius: 2px; }
-.score-bar-fill { height: 100%; border-radius: 2px; transition: width 0.5s var(--ease); }
+.score-bar-fill { height: 100%; border-radius: 2px; transition: width var(--dur-slow) var(--ease); }
 
-/* grade badge */
 .grade-badge {
     font-family: var(--font-mono);
     font-size: 11px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     width: 28px;
     height: 28px;
     border-radius: var(--rounded-sm);
@@ -285,12 +275,11 @@ const gradeColor = (g: Grade): string => {
     letter-spacing: 0.05em;
 }
 
-.grade-a { background: var(--status-ok-bg);     color: var(--status-ok);     border: 1px solid rgba(22,163,74,.25); }
-.grade-b { background: var(--status-warn-bg);   color: var(--status-warn);   border: 1px solid rgba(217,119,6,.25); }
-.grade-c { background: var(--status-danger-bg); color: var(--status-danger); border: 1px solid rgba(220,38,38,.25); }
-.grade-d { background: var(--color-hairline);   color: var(--color-body);    border: 1px solid var(--color-hairline); }
+.grade-a { background: var(--grade-a-bg); color: var(--grade-a); border: 1px solid rgba(22,163,74,.25); }
+.grade-b { background: var(--grade-b-bg); color: var(--grade-b); border: 1px solid rgba(217,119,6,.25); }
+.grade-c { background: var(--grade-c-bg); color: var(--grade-c); border: 1px solid rgba(220,38,38,.25); }
+.grade-d { background: var(--grade-d-bg); color: var(--grade-d); border: 1px solid var(--color-hairline); }
 
-/* empty state */
 .empty-row {
     text-align: center;
     color: var(--color-body);
@@ -300,7 +289,6 @@ const gradeColor = (g: Grade): string => {
 
 .muted { color: var(--color-body); }
 
-/* pagination */
 .pagination {
     display: flex;
     align-items: center;

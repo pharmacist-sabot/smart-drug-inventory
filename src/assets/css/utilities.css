@@ -1,0 +1,8 @@
+.text-ink    { color: var(--color-ink); }
+.text-body   { color: var(--color-body); }
+.text-on-dark { color: var(--color-on-dark); }
+.text-ok     { color: var(--status-ok); }
+.text-warn   { color: var(--status-warn); }
+.text-danger { color: var(--status-danger); }
+.text-info   { color: var(--status-info); }
+.text-accent { color: var(--color-accent-mint); }

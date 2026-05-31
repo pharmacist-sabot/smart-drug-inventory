@@ -61,8 +61,8 @@ const dosDisplay = computed(() =>
 .dos-fill {
     height: 100%;
     border-radius: 3px;
-    transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    opacity: 0.85;
+    transition: width var(--dur-spring) var(--ease-spring);
+    opacity: var(--opacity-hover);
 }
 
 .zone-marker {
@@ -70,7 +70,7 @@ const dosDisplay = computed(() =>
     top: -2px;
     width: 1px;
     height: 9px;
-    background: #d1d5db;
+    background: var(--color-overlay-bg);
 }
 
 .zone-marker span {
@@ -94,7 +94,7 @@ const dosDisplay = computed(() =>
 .dos-status-label {
     font-family: var(--font-mono);
     font-size: 11px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     letter-spacing: 0.04em;
 }
 

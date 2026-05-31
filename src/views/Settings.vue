@@ -307,20 +307,19 @@ async function handleSave() {
 
 <style scoped>
 .settings-page {
-    max-width: 860px;
+    max-width: var(--content-max-width-narrow);
     margin: 0 auto;
     padding: 40px 32px 80px;
     background: var(--color-canvas);
     min-height: 100vh;
 }
 
-/* ── Page Header ── */
 .page-header { margin-bottom: var(--space-4xl); }
 
 .page-title {
     font-family: var(--font-display);
     font-size: 26px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     color: var(--color-ink);
     letter-spacing: -0.022em;
     margin: 0;
@@ -330,10 +329,9 @@ async function handleSave() {
     font-size: 14px;
     color: var(--color-body);
     margin: var(--space-sm) 0 0;
-    line-height: 1.5;
+    line-height: var(--line-height-relaxed);
 }
 
-/* ── Status Banner ── */
 .status-banner {
     display: flex;
     align-items: center;
@@ -343,7 +341,7 @@ async function handleSave() {
     margin-bottom: var(--space-3xl);
     font-size: 14px;
     border: 1px solid;
-    line-height: 1.5;
+    line-height: var(--line-height-relaxed);
 }
 
 .status-banner.success { background: var(--status-ok-bg);     border-color: rgba(22,163,74,.2);   color: var(--status-ok); }
@@ -357,7 +355,7 @@ async function handleSave() {
     background: none;
     border: none;
     color: inherit;
-    opacity: 0.6;
+    opacity: var(--opacity-muted);
     cursor: pointer;
     font-size: 18px;
     line-height: 1;
@@ -367,14 +365,17 @@ async function handleSave() {
 }
 .status-dismiss:hover { opacity: 1; }
 
-/* ── Settings Grid ── */
+.settings-page .btn {
+    padding: 10px var(--space-2xl);
+    font-size: 11px;
+}
+
 .settings-grid {
     display: flex;
     flex-direction: column;
     gap: var(--space-3xl);
 }
 
-/* ── Card ── */
 .settings-card {
     background: var(--color-canvas);
     border: 1px solid var(--color-hairline);
@@ -398,17 +399,17 @@ async function handleSave() {
     width: 40px;
     height: 40px;
     border-radius: var(--rounded-sm);
-    background: #f3f4f6;
+    background: var(--color-elevated-bg);
     color: var(--color-ink);
     flex-shrink: 0;
 }
 
 .card-title {
     font-size: 15px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     color: var(--color-ink);
     margin: 0;
-    letter-spacing: -0.01em;
+    letter-spacing: var(--tracking-body);
 }
 
 .card-desc {
@@ -417,7 +418,6 @@ async function handleSave() {
     margin: 3px 0 0;
 }
 
-/* ── Form ── */
 .form-body {
     padding: var(--space-2xl) var(--space-3xl) var(--space-3xl);
     display: flex;
@@ -434,7 +434,7 @@ async function handleSave() {
 .form-label {
     font-family: var(--font-mono);
     font-size: 9px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     color: var(--color-body);
     text-transform: uppercase;
     letter-spacing: 0.55px;
@@ -444,7 +444,7 @@ async function handleSave() {
     font-size: 13px;
     color: var(--color-body);
     margin: -2px 0 2px;
-    line-height: 1.5;
+    line-height: var(--line-height-relaxed);
 }
 
 .form-input {
@@ -461,10 +461,10 @@ async function handleSave() {
     box-sizing: border-box;
 }
 
-.form-input::placeholder { color: #9ca3af; }
-.form-input:hover:not(:disabled) { border-color: #9ca3af; }
+.form-input::placeholder { color: var(--color-hover-border); }
+.form-input:hover:not(:disabled) { border-color: var(--color-hover-border); }
 .form-input:focus { border-color: var(--color-ink); box-shadow: 0 0 0 2px rgba(0,0,0,0.06); }
-.form-input:disabled { opacity: 0.4; cursor: not-allowed; background: #f9fafb; }
+.form-input:disabled { opacity: var(--opacity-disabled); cursor: not-allowed; background: var(--color-disabled-bg); }
 .form-input.mono { font-family: var(--font-mono); font-size: 13px; }
 
 .form-input[type='number'] { -moz-appearance: textfield; }
@@ -473,12 +473,10 @@ async function handleSave() {
 .form-input[type='number']:hover::-webkit-inner-spin-button,
 .form-input[type='number']:hover::-webkit-outer-spin-button { opacity: 1; }
 
-/* ── Input with unit ── */
 .input-with-unit { display: flex; align-items: center; gap: var(--space-md); }
 .input-with-unit .form-input { max-width: 180px; }
 .input-unit { font-size: 13px; color: var(--color-body); white-space: nowrap; }
 
-/* ── Toggle Switch ── */
 .toggle-group { display: flex; align-items: center; }
 .toggle-label { display: flex; align-items: center; gap: var(--space-lg); cursor: pointer; user-select: none; }
 .toggle-switch { position: relative; display: inline-flex; align-items: center; flex-shrink: 0; }
@@ -488,7 +486,7 @@ async function handleSave() {
     position: relative;
     width: 46px;
     height: 26px;
-    background: #e5e7eb;
+    background: var(--color-toggle-track);
     border: 1px solid var(--color-hairline);
     border-radius: 13px;
     transition: background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
@@ -500,7 +498,7 @@ async function handleSave() {
     left: 2px;
     width: 20px;
     height: 20px;
-    background: #9ca3af;
+    background: var(--color-hover-border);
     border-radius: 50%;
     transition: transform var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
 }
@@ -511,37 +509,6 @@ async function handleSave() {
 
 .toggle-text { font-size: 14px; color: var(--color-body); line-height: 1.4; }
 
-/* ── Buttons ── */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-sm);
-    padding: 10px var(--space-2xl);
-    border-radius: var(--rounded-sm);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.08px;
-    text-transform: uppercase;
-    border: 1px solid transparent;
-    cursor: pointer;
-    transition: opacity var(--dur-fast) var(--ease);
-    white-space: nowrap;
-}
-
-.btn:disabled { opacity: 0.45; cursor: not-allowed; }
-
-.btn-primary { background: var(--color-ink); color: #fff; border-color: var(--color-ink); }
-.btn-primary:hover:not(:disabled) { opacity: 0.85; }
-
-.btn-secondary {
-    background: #fff;
-    color: var(--color-ink);
-    border-color: var(--color-hairline);
-}
-.btn-secondary:hover:not(:disabled) { border-color: #9ca3af; }
-
-/* ── Form Actions ── */
 .form-actions {
     display: flex;
     align-items: center;
@@ -552,34 +519,17 @@ async function handleSave() {
     padding-top: var(--space-2xl);
 }
 
-.test-result { font-size: 13px; font-weight: 500; line-height: 1.5; max-width: 440px; }
+.test-result { font-size: 13px; font-weight: var(--font-weight-medium); line-height: var(--line-height-relaxed); max-width: 440px; }
 .test-result.success { color: var(--status-ok); }
 .test-result.error   { color: var(--status-danger); }
 
-/* ── Page Actions ── */
 .page-actions { margin-top: var(--space-3xl); display: flex; justify-content: flex-end; }
 
-/* ── Spinner ── */
-.spinner {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    border: 2px solid transparent;
-    border-top-color: currentColor;
-    border-left-color: currentColor;
-    border-radius: 50%;
-    animation: spin 0.6s linear infinite;
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* ── Transitions ── */
 .msg-enter-active, .msg-leave-active { transition: all var(--dur-fast) var(--ease); }
 .msg-enter-from, .msg-leave-to { opacity: 0; transform: translateY(-8px); }
 .result-enter-active, .result-leave-active { transition: opacity var(--dur-fast) var(--ease); }
 .result-enter-from, .result-leave-to { opacity: 0; }
 
-/* ── Responsive ── */
 @media (max-width: 560px) {
     .settings-page { padding: 24px 16px 56px; }
     .form-row.two-col { flex-direction: column; gap: var(--space-xl); }

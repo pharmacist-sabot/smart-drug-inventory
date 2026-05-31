@@ -119,7 +119,7 @@
             <section class="content-wrap fadeUp" style="animation-delay:.12s">
                 <div class="panel">
                     <div class="panel-header">
-                        <p class="panel-eyebrow">DOS DISTRIBUTION</p>
+                        <p class="panel-eyebrow--dash">DOS DISTRIBUTION</p>
                         <h2 class="panel-title">การกระจาย Days of Supply</h2>
                     </div>
                     <div class="panel-body">
@@ -143,7 +143,7 @@
             <section class="issues-grid fadeUp" style="animation-delay:.18s">
                 <div class="panel">
                     <div class="panel-header">
-                        <p class="panel-eyebrow">TOP RISK</p>
+                        <p class="panel-eyebrow--dash">TOP RISK</p>
                         <h2 class="panel-title">🔴 Stockout Risk</h2>
                     </div>
                     <div class="panel-body panel-body--list">
@@ -162,7 +162,7 @@
 
                 <div class="panel">
                     <div class="panel-header">
-                        <p class="panel-eyebrow">TOP OVERSTOCK</p>
+                        <p class="panel-eyebrow--dash">TOP OVERSTOCK</p>
                         <h2 class="panel-title">🔵 Overstock</h2>
                     </div>
                     <div class="panel-body panel-body--list">
@@ -181,7 +181,7 @@
 
                 <div class="panel">
                     <div class="panel-header">
-                        <p class="panel-eyebrow">TOP DEAD STOCK</p>
+                        <p class="panel-eyebrow--dash">TOP DEAD STOCK</p>
                         <h2 class="panel-title">💀 Dead Stock</h2>
                     </div>
                     <div class="panel-body panel-body--list">
@@ -203,7 +203,7 @@
             <section class="content-wrap fadeUp" style="animation-delay:.24s">
                 <div class="panel">
                     <div class="panel-header">
-                        <p class="panel-eyebrow">ALL DRUGS</p>
+                        <p class="panel-eyebrow--dash">ALL DRUGS</p>
                         <h2 class="panel-title">รายการยาทั้งหมด</h2>
                     </div>
                     <div class="panel-filter-row">
@@ -299,21 +299,19 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-/* ─── Dashboard Root ─── */
 .dashboard {
     padding-bottom: 64px;
     min-height: 100vh;
     background: var(--color-canvas);
 }
 
-/* ─── Control Bar (canvas-dark) ─── */
 .ctrl-bar {
     background: var(--color-canvas-dark);
     border-bottom: 1px solid var(--color-surface-dark-soft);
 }
 
 .ctrl-inner {
-    max-width: 1280px;
+    max-width: var(--content-max-width);
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -331,7 +329,7 @@ onMounted(async () => {
 .ctrl-eyebrow {
     font-family: var(--font-mono);
     font-size: 9px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     letter-spacing: 0.55px;
     text-transform: uppercase;
     color: var(--color-on-dark-muted);
@@ -350,7 +348,7 @@ onMounted(async () => {
     color: var(--color-on-dark);
     font-family: var(--font-mono);
     font-size: 11px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     padding: 5px var(--space-md);
     white-space: nowrap;
     letter-spacing: 0.05em;
@@ -380,7 +378,6 @@ onMounted(async () => {
     font-size: 12px;
 }
 
-/* button-primary adapted for dark bar */
 .load-btn {
     display: inline-flex;
     align-items: center;
@@ -393,7 +390,7 @@ onMounted(async () => {
     border-radius: var(--rounded-sm);
     font-family: var(--font-mono);
     font-size: 11px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     letter-spacing: 0.08px;
     text-transform: uppercase;
     cursor: pointer;
@@ -401,15 +398,14 @@ onMounted(async () => {
     white-space: nowrap;
 }
 
-.load-btn:hover:not(:disabled) { opacity: 0.85; }
-.load-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.load-btn:hover:not(:disabled) { opacity: var(--opacity-hover); }
+.load-btn:disabled { opacity: var(--opacity-disabled); cursor: not-allowed; }
 
-/* ─── Error Banner ─── */
 .error-banner {
     display: flex;
     align-items: center;
     gap: var(--space-md);
-    max-width: 1280px;
+    max-width: var(--content-max-width);
     margin: var(--space-xl) auto 0;
     padding: var(--space-lg) var(--space-2xl);
     background: var(--status-danger-bg);
@@ -426,14 +422,13 @@ onMounted(async () => {
     color: var(--status-danger);
     cursor: pointer;
     font-size: 14px;
-    opacity: 0.6;
+    opacity: var(--opacity-muted);
     transition: opacity var(--dur-fast);
 }
 .error-dismiss:hover { opacity: 1; }
 
-/* ─── Loading Skeleton ─── */
 .skeleton-wrap {
-    max-width: 1280px;
+    max-width: var(--content-max-width);
     margin: 0 auto;
     padding: var(--space-3xl) var(--space-3xl);
     display: flex;
@@ -442,7 +437,7 @@ onMounted(async () => {
 }
 
 .skel {
-    background: linear-gradient(90deg, var(--color-hairline) 25%, #f3f4f6 50%, var(--color-hairline) 75%);
+    background: linear-gradient(90deg, var(--color-hairline) 25%, var(--color-elevated-bg) 50%, var(--color-hairline) 75%);
     background-size: 400% 100%;
     border-radius: var(--rounded-sm);
     animation: shimmer 1.6s ease infinite;
@@ -453,16 +448,14 @@ onMounted(async () => {
 .skel-card  { height: 110px; }
 .skel-panel { height: 260px; }
 
-/* ─── Layout wrappers ─── */
 .content-wrap {
-    max-width: 1280px;
+    max-width: var(--content-max-width);
     margin: var(--space-3xl) auto 0;
     padding: 0 var(--space-3xl);
 }
 
-/* ─── Hero section ─── */
 .hero {
-    max-width: 1280px;
+    max-width: var(--content-max-width);
     margin: var(--space-3xl) auto 0;
     padding: var(--space-2xl) var(--space-3xl);
     display: flex;
@@ -483,7 +476,7 @@ onMounted(async () => {
 .hero-eyebrow {
     font-family: var(--font-mono);
     font-size: 9px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     letter-spacing: 0.55px;
     text-transform: uppercase;
     color: var(--color-body);
@@ -492,7 +485,7 @@ onMounted(async () => {
 
 .hero-title {
     font-size: 22px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     color: var(--color-ink);
     letter-spacing: -0.022em;
     margin: 0;
@@ -510,7 +503,6 @@ onMounted(async () => {
     margin: var(--space-xs) 0 0;
 }
 
-/* metrics cluster */
 .hero-metrics {
     display: flex;
     align-items: center;
@@ -528,7 +520,7 @@ onMounted(async () => {
 .metric-value {
     font-family: var(--font-mono);
     font-size: 22px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     color: var(--color-ink);
     line-height: 1;
     letter-spacing: -0.03em;
@@ -537,7 +529,7 @@ onMounted(async () => {
 .metric-label {
     font-family: var(--font-mono);
     font-size: 9px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     letter-spacing: 0.55px;
     text-transform: uppercase;
     color: var(--color-body);
@@ -549,9 +541,8 @@ onMounted(async () => {
     background: var(--color-hairline);
 }
 
-/* ─── Stat grid ─── */
 .stat-grid {
-    max-width: 1280px;
+    max-width: var(--content-max-width);
     margin: var(--space-3xl) auto 0;
     padding: 0 var(--space-3xl);
     display: grid;
@@ -559,38 +550,16 @@ onMounted(async () => {
     gap: var(--space-lg);
 }
 
-/* ─── Panel ─── */
-.panel {
-    background: var(--color-canvas);
-    border: 1px solid var(--color-hairline);
-    border-radius: var(--rounded-sm);
-    overflow: hidden;
-}
-
-.panel-header {
-    padding: var(--space-lg) var(--space-2xl);
-    border-bottom: 1px solid var(--color-hairline);
-}
-
-.panel-eyebrow {
+.panel-eyebrow--dash--dash {
     font-family: var(--font-mono);
     font-size: 9px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     letter-spacing: 0.55px;
     text-transform: uppercase;
     color: var(--color-body);
     margin: 0 0 var(--space-xs);
 }
 
-.panel-title {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--color-ink);
-    margin: 0;
-    letter-spacing: -0.01em;
-}
-
-.panel-body { padding: var(--space-2xl); }
 .panel-body--list { padding: var(--space-lg) var(--space-md); }
 
 .panel-filter-row {
@@ -598,7 +567,6 @@ onMounted(async () => {
     border-bottom: 1px solid var(--color-hairline);
 }
 
-/* ─── DOS distribution ─── */
 .dos-track {
     display: flex;
     height: 16px;
@@ -608,7 +576,7 @@ onMounted(async () => {
 }
 
 .dos-seg {
-    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: width var(--dur-slow) var(--ease-spring);
     min-width: 2px;
 }
 
@@ -643,9 +611,8 @@ onMounted(async () => {
     color: var(--color-ink);
 }
 
-/* ─── Issues grid ─── */
 .issues-grid {
-    max-width: 1280px;
+    max-width: var(--content-max-width);
     margin: var(--space-3xl) auto 0;
     padding: 0 var(--space-3xl);
     display: grid;
@@ -674,7 +641,7 @@ onMounted(async () => {
 }
 
 .issue-item:last-child { border-bottom: none; }
-.issue-item:hover { background: #f9fafb; }
+.issue-item:hover { background: var(--color-hover-bg); }
 
 .issue-name {
     font-size: 13px;
@@ -699,11 +666,10 @@ onMounted(async () => {
     color: var(--color-body);
 }
 
-/* grade-tag (badge-neutral style) */
 .grade-tag {
     font-family: var(--font-mono);
     font-size: 10px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     width: 22px;
     height: 22px;
     border-radius: var(--rounded-xs);
@@ -713,10 +679,10 @@ onMounted(async () => {
     text-transform: uppercase;
 }
 
-.g-a { background: var(--status-ok-bg);     color: var(--status-ok); }
-.g-b { background: var(--status-warn-bg);   color: var(--status-warn); }
-.g-c { background: var(--status-danger-bg); color: var(--status-danger); }
-.g-d { background: var(--color-hairline);   color: var(--color-body); }
+.g-a { background: var(--grade-a-bg); color: var(--grade-a); }
+.g-b { background: var(--grade-b-bg); color: var(--grade-b); }
+.g-c { background: var(--grade-c-bg); color: var(--grade-c); }
+.g-d { background: var(--grade-d-bg); color: var(--grade-d); }
 
 .list-empty {
     text-align: center;
@@ -725,7 +691,6 @@ onMounted(async () => {
     font-size: 13px;
 }
 
-/* ─── Empty state ─── */
 .empty-state-full {
     display: flex;
     flex-direction: column;
@@ -746,7 +711,6 @@ onMounted(async () => {
     color: var(--color-ink);
 }
 
-/* ─── Responsive ─── */
 @media (max-width: 1100px) {
     .stat-grid { grid-template-columns: repeat(2, 1fr); }
     .issues-grid { grid-template-columns: repeat(2, 1fr); }

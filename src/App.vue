@@ -129,16 +129,14 @@ onMounted(() => { checkDb() })
 </script>
 
 <style scoped>
-/* ── App shell ── */
 .app-shell {
     display: flex;
     min-height: 100vh;
     background: var(--color-canvas);
 }
 
-/* ── Sidebar (canvas-dark band) ── */
 .sidebar {
-    width: 220px;
+    width: var(--sidebar-width);
     min-height: 100vh;
     background: var(--color-canvas-dark);
     border-right: 1px solid var(--color-surface-dark-soft);
@@ -147,49 +145,43 @@ onMounted(() => { checkDb() })
     position: sticky;
     top: 0;
     height: 100vh;
-    z-index: 10;
+    z-index: var(--z-sidebar);
     flex-shrink: 0;
 }
 
-/* Logo area */
 .sidebar-logo {
     display: flex;
     align-items: center;
     gap: 12px;
     padding: 24px 20px 20px;
 }
-
 .logo-mark {
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
 .logo-text {
     display: flex;
     flex-direction: column;
     line-height: 1;
 }
-
 .logo-name {
     font-family: var(--font-mono);
     font-size: 13px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     letter-spacing: 0.15em;
     color: var(--color-on-dark);
 }
-
 .logo-sub {
     font-family: var(--font-mono);
     font-size: 9px;
-    font-weight: 400;
+    font-weight: var(--font-weight-normal);
     letter-spacing: 0.12em;
     color: var(--color-on-dark-muted);
     margin-top: 4px;
 }
 
-/* Brand gradient divider — orange → magenta → periwinkle */
 .gradient-rule {
     height: 2px;
     background: linear-gradient(90deg,
@@ -200,7 +192,6 @@ onMounted(() => { checkDb() })
     flex-shrink: 0;
 }
 
-/* Nav */
 .sidebar-nav {
     padding: 20px 12px;
     flex: 1;
@@ -208,11 +199,10 @@ onMounted(() => { checkDb() })
     flex-direction: column;
     gap: 2px;
 }
-
 .nav-section-label {
     font-family: var(--font-mono);
     font-size: 9px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     letter-spacing: 0.55px;
     text-transform: uppercase;
     color: var(--color-on-dark-muted);
@@ -220,7 +210,6 @@ onMounted(() => { checkDb() })
     margin-bottom: 8px;
     display: block;
 }
-
 .nav-item {
     display: flex;
     align-items: center;
@@ -231,26 +220,23 @@ onMounted(() => { checkDb() })
     text-decoration: none;
     font-family: var(--font-mono);
     font-size: 11px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
     border: 1px solid transparent;
 }
-
 .nav-item:hover {
     color: var(--color-on-dark);
     background: rgba(255, 255, 255, 0.06);
     text-decoration: none;
 }
-
 .nav-item.active {
     color: var(--color-on-dark);
     background: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.12);
 }
 
-/* Sidebar footer */
 .sidebar-footer {
     padding: 16px 20px;
     border-top: 1px solid var(--color-surface-dark-soft);
@@ -258,33 +244,29 @@ onMounted(() => { checkDb() })
     flex-direction: column;
     gap: 6px;
 }
-
 .db-status {
     display: flex;
     align-items: center;
     gap: 7px;
     font-family: var(--font-mono);
     font-size: 10px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     letter-spacing: 0.08em;
 }
-
-.db-status.ok    { color: #4ade80; }
-.db-status.err   { color: #f87171; }
+.db-status.ok    { color: var(--green-400); }
+.db-status.err   { color: var(--red-400); }
 .db-status.checking { color: var(--color-on-dark-muted); }
 
 .db-dot {
-    width: 6px;
-    height: 6px;
+    width: var(--db-dot-size);
+    height: var(--db-dot-size);
     border-radius: 50%;
     background: currentColor;
     flex-shrink: 0;
 }
-
 .db-status.ok .db-dot {
     animation: pulse-dot 2s ease-in-out infinite;
 }
-
 .db-label { text-transform: uppercase; }
 
 .version-label {
@@ -294,7 +276,6 @@ onMounted(() => { checkDb() })
     opacity: 0.4;
 }
 
-/* ── Main content ── */
 .main-content {
     flex: 1;
     min-width: 0;
@@ -302,7 +283,6 @@ onMounted(() => { checkDb() })
     overflow-y: auto;
 }
 
-/* ── Page transitions ── */
 .page-enter-active,
 .page-leave-active {
     transition: opacity 0.18s var(--ease), transform 0.18s var(--ease);
