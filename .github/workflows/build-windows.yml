@@ -16,18 +16,16 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: 24
-
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: x86_64-pc-windows-msvc
 
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+
       - name: Install Frontend Dependencies
-        run: npm install
+        run: bun install
 
       - name: Build Tauri and Create Windows Installer
         uses: tauri-apps/tauri-action@v0
