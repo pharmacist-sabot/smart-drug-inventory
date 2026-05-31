@@ -14,26 +14,33 @@ jobs:
   release:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.2
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: x86_64-pc-windows-msvc
 
-      - name: Install Bun
-        uses: oven-sh/setup-bun@v2
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2.9.1
+        with:
+          workspaces: './src-tauri -> target'
 
       - name: Install Frontend Dependencies
         run: bun install
 
-      - name: Build Tauri and Create Windows Installer
-        uses: tauri-apps/tauri-action@v0
+      - name: Build Tauri Windows Installer
+        uses: tauri-apps/tauri-action@v0.6.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tagName: ${{ github.ref_name }}
           releaseName: 'OnePharm ${{ github.ref_name }}'
-          releaseBody: 'ดาวน์โหลดไฟล์ตัวติดตั้ง .msi หรือ .exe สำหรับ Windows ได้ที่ Assets ด้านล่าง'
+          releaseBody: 'See the assets to download this version and install.'
           releaseDraft: false
           prerelease: false
