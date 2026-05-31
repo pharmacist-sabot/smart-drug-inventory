@@ -407,130 +407,129 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { getDrugDetail } from '@/api'
-import GradeRing from '@/components/GradeRing.vue'
-import DosBar from '@/components/DosBar.vue'
-import type { DrugKpi } from '@/types'
-import type { ExpiryStatus } from '@/types'
+import { computed, onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { getDrugDetail } from '@/api';
+import DosBar from '@/components/DosBar.vue';
+import GradeRing from '@/components/GradeRing.vue';
+import type { DrugKpi, ExpiryStatus } from '@/types';
 
-const props = defineProps<{ code: string }>()
+const props = defineProps<{ code: string }>();
 
-const router = useRouter()
-const route = useRoute()
+const router = useRouter();
+const route = useRoute();
 
-const drug = ref<DrugKpi | null>(null)
-const loading = ref(true)
-const error = ref<string | null>(null)
+const drug = ref<DrugKpi | null>(null);
+const loading = ref(true);
+const error = ref<string | null>(null);
 
 // ── helpers ─────────────────────────────────────────────
 function fmt(n: number | null | undefined): string {
-    if (n === null || n === undefined) return '—'
-    return n.toLocaleString('th-TH')
+  if (n === null || n === undefined) return '—';
+  return n.toLocaleString('th-TH');
 }
 
 function fmtMoney(v: number | null | undefined): string {
-    if (v === null || v === undefined) return '—'
-    if (Math.abs(v) >= 1_000_000) return (v / 1_000_000).toFixed(2) + 'M'
-    if (Math.abs(v) >= 1_000) return (v / 1_000).toFixed(1) + 'K'
-    return v.toLocaleString('th-TH', { maximumFractionDigits: 2 })
+  if (v === null || v === undefined) return '—';
+  if (Math.abs(v) >= 1_000_000) return `${(v / 1_000_000).toFixed(2)}M`;
+  if (Math.abs(v) >= 1_000) return `${(v / 1_000).toFixed(1)}K`;
+  return v.toLocaleString('th-TH', { maximumFractionDigits: 2 });
 }
 
 const dailyUsage = computed(() => {
-    if (!drug.value) return '0'
-    const du = drug.value.daily_usage
-    if (du === null || du === undefined || du === 0) return '0'
-    return du.toFixed(2)
-})
+  if (!drug.value) return '0';
+  const du = drug.value.daily_usage;
+  if (du === null || du === undefined || du === 0) return '0';
+  return du.toFixed(2);
+});
 
 const dosColor = computed(() => {
-    if (!drug.value) return '#8b9ab0'
-    const map: Record<string, string> = {
-        stockout_risk: '#ef4444',
-        low_stock: '#f59e0b',
-        normal: '#22c55e',
-        overstock: '#3b82f6',
-    }
-    return map[drug.value.dos_status] || '#8b9ab0'
-})
+  if (!drug.value) return '#8b9ab0';
+  const map: Record<string, string> = {
+    stockout_risk: '#ef4444',
+    low_stock: '#f59e0b',
+    normal: '#22c55e',
+    overstock: '#3b82f6',
+  };
+  return map[drug.value.dos_status] || '#8b9ab0';
+});
 
 function scoreColor(s: number): string {
-    if (s >= 80) return '#22c55e'
-    if (s >= 60) return '#f59e0b'
-    if (s >= 40) return '#f97316'
-    return '#ef4444'
+  if (s >= 80) return '#22c55e';
+  if (s >= 60) return '#f59e0b';
+  if (s >= 40) return '#f97316';
+  return '#ef4444';
 }
 
 // ── score weights ────────────────────────────────────────
 const WEIGHTS = [
-    { key: 'turnover', label: 'Turnover', weight: 0.30 },
-    { key: 'dos', label: 'Days of Supply', weight: 0.25 },
-    { key: 'dead_stock', label: 'Dead Stock', weight: 0.20 },
-    { key: 'accuracy', label: 'Accuracy', weight: 0.10 },
-    { key: 'expiry', label: 'Expiry', weight: 0.15 },
-] as const
+  { key: 'turnover', label: 'Turnover', weight: 0.3 },
+  { key: 'dos', label: 'Days of Supply', weight: 0.25 },
+  { key: 'dead_stock', label: 'Dead Stock', weight: 0.2 },
+  { key: 'accuracy', label: 'Accuracy', weight: 0.1 },
+  { key: 'expiry', label: 'Expiry', weight: 0.15 },
+] as const;
 
 const scoreRows = computed(() => {
-    if (!drug.value) return []
-    const d = drug.value
-    const scoreMap: Record<string, number> = {
-        turnover: d.turnover_score,
-        dos: d.dos_score,
-        dead_stock: d.dead_stock_score,
-        accuracy: d.accuracy_score,
-        expiry: d.expiry_score,
-    }
-    return WEIGHTS.map((w) => {
-        const score = scoreMap[w.key] ?? 0
-        return { label: w.label, weight: w.weight, score, weighted: score * w.weight }
-    })
-})
+  if (!drug.value) return [];
+  const d = drug.value;
+  const scoreMap: Record<string, number> = {
+    turnover: d.turnover_score,
+    dos: d.dos_score,
+    dead_stock: d.dead_stock_score,
+    accuracy: d.accuracy_score,
+    expiry: d.expiry_score,
+  };
+  return WEIGHTS.map((w) => {
+    const score = scoreMap[w.key] ?? 0;
+    return { label: w.label, weight: w.weight, score, weighted: score * w.weight };
+  });
+});
 
 // ── expiry helpers ───────────────────────────────────────
 function formatExpDate(dateNum: number): string {
-    const s = String(dateNum)
-    if (s.length === 8) {
-        return `${s.slice(6, 8)}/${s.slice(4, 6)}/${s.slice(0, 4)}`
-    }
-    return String(dateNum)
+  const s = String(dateNum);
+  if (s.length === 8) {
+    return `${s.slice(6, 8)}/${s.slice(4, 6)}/${s.slice(0, 4)}`;
+  }
+  return String(dateNum);
 }
 
 function expiryDaysClass(days: number): string {
-    if (days <= 0) return 'text-expired'
-    if (days <= 30) return 'text-critical'
-    if (days <= 90) return 'text-warning'
-    return ''
+  if (days <= 0) return 'text-expired';
+  if (days <= 30) return 'text-critical';
+  if (days <= 90) return 'text-warning';
+  return '';
 }
 
 function expiryStatusLabel(status: ExpiryStatus): string {
-    const map: Record<ExpiryStatus, string> = {
-        expired: 'หมดอายุ',
-        critical: 'วิกฤต',
-        warning: 'ใกล้หมด',
-        safe: 'ปลอดภัย',
-    }
-    return map[status] ?? status
+  const map: Record<ExpiryStatus, string> = {
+    expired: 'หมดอายุ',
+    critical: 'วิกฤต',
+    warning: 'ใกล้หมด',
+    safe: 'ปลอดภัย',
+  };
+  return map[status] ?? status;
 }
 
 // ── data fetching ────────────────────────────────────────
 async function fetchData() {
-    loading.value = true
-    error.value = null
-    const stockId = (route.query.stock_id as string) ?? ''
-    const year = Number(route.query.year) || new Date().getFullYear()
-    const mf = Number(route.query.mf) || 1
-    const mt = Number(route.query.mt) || 12
-    try {
-        drug.value = await getDrugDetail(props.code, stockId, year, mf, mt)
-    } catch (err: any) {
-        error.value = err?.message ?? 'ไม่สามารถโหลดข้อมูลได้'
-    } finally {
-        loading.value = false
-    }
+  loading.value = true;
+  error.value = null;
+  const stockId = (route.query.stock_id as string) ?? '';
+  const year = Number(route.query.year) || new Date().getFullYear();
+  const mf = Number(route.query.mf) || 1;
+  const mt = Number(route.query.mt) || 12;
+  try {
+    drug.value = await getDrugDetail(props.code, stockId, year, mf, mt);
+  } catch (err: unknown) {
+    error.value = err instanceof Error ? err.message : 'ไม่สามารถโหลดข้อมูลได้';
+  } finally {
+    loading.value = false;
+  }
 }
 
-onMounted(fetchData)
+onMounted(fetchData);
 </script>
 
 <style scoped>

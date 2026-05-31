@@ -27,31 +27,40 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, watch } from 'vue'
-import type { Grade } from '@/types'
+import { computed, onMounted, ref, watch } from 'vue';
+import type { Grade } from '@/types';
 
 const props = withDefaults(
-    defineProps<{ score: number; grade: Grade; size?: number; strokeW?: number }>(),
-    { size: 100, strokeW: 6 },
-)
+  defineProps<{ score: number; grade: Grade; size?: number; strokeW?: number }>(),
+  { size: 100, strokeW: 6 },
+);
 
 const GRADE_COLORS: Record<Grade, string> = {
-    A: '#16a34a',
-    B: '#d97706',
-    C: '#dc2626',
-    D: '#6b7280',
-}
-const gradeColor = computed(() => GRADE_COLORS[props.grade] ?? '#6b7280')
+  A: '#16a34a',
+  B: '#d97706',
+  C: '#dc2626',
+  D: '#6b7280',
+};
+const gradeColor = computed(() => GRADE_COLORS[props.grade] ?? '#6b7280');
 
-const r = computed(() => props.size / 2 - props.strokeW / 2 - 2)
-const circumference = computed(() => 2 * Math.PI * r.value)
+const r = computed(() => props.size / 2 - props.strokeW / 2 - 2);
+const circumference = computed(() => 2 * Math.PI * r.value);
 
-const animScore = ref(0)
-const offset = computed(() => circumference.value * (1 - animScore.value / 100))
-const displayScore = computed(() => Math.round(animScore.value))
+const animScore = ref(0);
+const offset = computed(() => circumference.value * (1 - animScore.value / 100));
+const displayScore = computed(() => Math.round(animScore.value));
 
-onMounted(() => { setTimeout(() => { animScore.value = props.score }, 120) })
-watch(() => props.score, (v) => { animScore.value = v })
+onMounted(() => {
+  setTimeout(() => {
+    animScore.value = props.score;
+  }, 120);
+});
+watch(
+  () => props.score,
+  (v) => {
+    animScore.value = v;
+  },
+);
 </script>
 
 <style scoped>

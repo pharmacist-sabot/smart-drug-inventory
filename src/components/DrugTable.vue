@@ -72,56 +72,66 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
-import type { DrugKpiSummary, Grade, DosStatus } from '@/types'
+import { computed, ref, watch } from 'vue';
+import type { DosStatus, DrugKpiSummary, Grade } from '@/types';
 
-const props = defineProps<{ drugs: DrugKpiSummary[] }>()
-defineEmits<{ select: [drug: DrugKpiSummary] }>()
+const props = defineProps<{ drugs: DrugKpiSummary[] }>();
+defineEmits<{ select: [drug: DrugKpiSummary] }>();
 
-const search = ref('')
-const sortKey = ref<keyof DrugKpiSummary>('overall_score')
-const sortAsc = ref(false)
-const page = ref(1)
-const PER_PAGE = 20
+const search = ref('');
+const sortKey = ref<keyof DrugKpiSummary>('overall_score');
+const sortAsc = ref(false);
+const page = ref(1);
+const PER_PAGE = 20;
 
 const filtered = computed(() => {
-    let d = props.drugs
-    if (search.value) {
-        const q = search.value.toLowerCase()
-        d = d.filter((x) => x.drug_name.toLowerCase().includes(q))
-    }
-    return [...d].sort((a, b) => {
-        const av = (a[sortKey.value] as number) ?? -Infinity
-        const bv = (b[sortKey.value] as number) ?? -Infinity
-        return sortAsc.value ? (av > bv ? 1 : -1) : av < bv ? 1 : -1
-    })
-})
+  let d = props.drugs;
+  if (search.value) {
+    const q = search.value.toLowerCase();
+    d = d.filter((x) => x.drug_name.toLowerCase().includes(q));
+  }
+  return [...d].sort((a, b) => {
+    const av = (a[sortKey.value] as number) ?? -Infinity;
+    const bv = (b[sortKey.value] as number) ?? -Infinity;
+    return sortAsc.value ? (av > bv ? 1 : -1) : av < bv ? 1 : -1;
+  });
+});
 
-const totalPages = computed(() => Math.max(1, Math.ceil(filtered.value.length / PER_PAGE)))
+const totalPages = computed(() => Math.max(1, Math.ceil(filtered.value.length / PER_PAGE)));
 const paginated = computed(() => {
-    const s = (page.value - 1) * PER_PAGE
-    return filtered.value.slice(s, s + PER_PAGE)
-})
+  const s = (page.value - 1) * PER_PAGE;
+  return filtered.value.slice(s, s + PER_PAGE);
+});
 
-watch(filtered, () => { page.value = 1 })
+watch(filtered, () => {
+  page.value = 1;
+});
 
 function doSort(key: string) {
-    const k = key as keyof DrugKpiSummary
-    if (sortKey.value === k) sortAsc.value = !sortAsc.value
-    else { sortKey.value = k; sortAsc.value = false }
+  const k = key as keyof DrugKpiSummary;
+  if (sortKey.value === k) sortAsc.value = !sortAsc.value;
+  else {
+    sortKey.value = k;
+    sortAsc.value = false;
+  }
 }
 
-const fmt = (n: number | null) => n?.toLocaleString('th-TH') ?? '—'
+const fmt = (n: number | null) => n?.toLocaleString('th-TH') ?? '—';
 
 const statusLabel = (s: DosStatus | null): string => {
-    const map: Record<DosStatus, string> = { stockout_risk: 'Stockout', low_stock: 'Low', normal: 'Normal', overstock: 'Over' }
-    return s ? map[s] ?? '—' : '—'
-}
+  const map: Record<DosStatus, string> = {
+    stockout_risk: 'Stockout',
+    low_stock: 'Low',
+    normal: 'Normal',
+    overstock: 'Over',
+  };
+  return s ? (map[s] ?? '—') : '—';
+};
 
 const gradeColor = (g: Grade): string => {
-    const map: Record<Grade, string> = { A: '#16a34a', B: '#d97706', C: '#dc2626', D: '#6b7280' }
-    return map[g] ?? '#6b7280'
-}
+  const map: Record<Grade, string> = { A: '#16a34a', B: '#d97706', C: '#dc2626', D: '#6b7280' };
+  return map[g] ?? '#6b7280';
+};
 </script>
 
 <style scoped>

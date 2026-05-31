@@ -8,10 +8,17 @@
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "tauri": "tauri",
-    "fmt:cargo": "cd src-tauri && cargo fmt",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
-    "gen-icons": "node scripts/gen-icons.cjs"
+    "gen-icons": "node scripts/gen-icons.cjs",
+    "fmt:cargo": "cd src-tauri && cargo fmt",
+    "fmt": "biome format --write .",
+    "fmt:check": "biome format .",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "check": "biome check .",
+    "check:fix": "biome check --write .",
+    "ci": "biome ci ."
   },
   "dependencies": {
     "@tauri-apps/api": "^2.10.1",
@@ -20,6 +27,7 @@
     "vue-router": "^5.0.3"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.16",
     "@resvg/resvg-js": "^2.6.2",
     "@tauri-apps/cli": "^2.10.1",
     "@tsconfig/node24": "^24.0.4",

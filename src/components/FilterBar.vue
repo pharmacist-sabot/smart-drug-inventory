@@ -17,14 +17,14 @@
 
 <script setup lang="ts">
 export interface FilterOption {
-    key: string
-    label: string
-    count: number
-    cls: string
+  key: string;
+  label: string;
+  count: number;
+  cls: string;
 }
 
-defineProps<{ modelValue: string; filters: FilterOption[] }>()
-defineEmits<{ 'update:modelValue': [value: string] }>()
+defineProps<{ modelValue: string; filters: FilterOption[] }>();
+defineEmits<{ 'update:modelValue': [value: string] }>();
 </script>
 
 <style scoped>

@@ -14,16 +14,16 @@
 
 <script setup lang="ts">
 withDefaults(
-    defineProps<{
-        label: string
-        value: string | number
-        unit?: string
-        sub?: string
-        icon?: string
-        variant?: string
-    }>(),
-    { variant: 'default' },
-)
+  defineProps<{
+    label: string;
+    value: string | number;
+    unit?: string;
+    sub?: string;
+    icon?: string;
+    variant?: string;
+  }>(),
+  { variant: 'default' },
+);
 </script>
 
 <style scoped>

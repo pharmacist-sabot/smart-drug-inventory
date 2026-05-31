@@ -187,121 +187,130 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, reactive } from 'vue'
-import { getSettings, saveSettings, testDbConnection } from '@/api'
-import type { AppSettings, DbConfig } from '@/types'
+import { onMounted, reactive, ref } from 'vue';
+import { getSettings, saveSettings, testDbConnection } from '@/api';
+import type { AppSettings, DbConfig } from '@/types';
 
-const emit = defineEmits<{ 'settings-saved': [] }>()
+const emit = defineEmits<{ 'settings-saved': [] }>();
 
-const loading = ref(true)
-const saving = ref(false)
-const testingConnection = ref(false)
+const loading = ref(true);
+const saving = ref(false);
+const testingConnection = ref(false);
 
-const statusMessage = ref('')
-const statusType = ref<'success' | 'error' | 'info'>('info')
-const testResult = ref('')
-const testResultType = ref<'success' | 'error'>('success')
+const statusMessage = ref('');
+const statusType = ref<'success' | 'error' | 'info'>('info');
+const testResult = ref('');
+const testResultType = ref<'success' | 'error'>('success');
 
 const form = reactive<AppSettings>({
-    db: {
-        server: '',
-        port: 1433,
-        database: '',
-        username: '',
-        password: '',
-        use_windows_auth: false,
-        trust_cert: false,
-        connect_timeout_secs: 30,
-    },
-    default_rolling_months: 6,
-    default_expiry_days: 180,
-    default_stock_id: 'STOCK1',
-})
+  db: {
+    server: '',
+    port: 1433,
+    database: '',
+    username: '',
+    password: '',
+    use_windows_auth: false,
+    trust_cert: false,
+    connect_timeout_secs: 30,
+  },
+  default_rolling_months: 6,
+  default_expiry_days: 180,
+  default_stock_id: 'STOCK1',
+});
 
-const statusIcon = ref('')
+const statusIcon = ref('');
 
 function setStatus(message: string, type: 'success' | 'error' | 'info') {
-    statusMessage.value = message
-    statusType.value = type
-    if (type === 'success') {
-        statusIcon.value = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'
-    } else if (type === 'error') {
-        statusIcon.value = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>'
-    } else {
-        statusIcon.value = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'
-    }
+  statusMessage.value = message;
+  statusType.value = type;
+  if (type === 'success') {
+    statusIcon.value =
+      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+  } else if (type === 'error') {
+    statusIcon.value =
+      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
+  } else {
+    statusIcon.value =
+      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+  }
 }
 
 function clearStatus() {
-    statusMessage.value = ''
+  statusMessage.value = '';
 }
 
 function populateForm(settings: AppSettings) {
-    form.db.server = settings.db.server
-    form.db.port = settings.db.port
-    form.db.database = settings.db.database
-    form.db.username = settings.db.username
-    form.db.password = settings.db.password
-    form.db.use_windows_auth = settings.db.use_windows_auth
-    form.db.trust_cert = settings.db.trust_cert
-    form.db.connect_timeout_secs = settings.db.connect_timeout_secs
-    form.default_rolling_months = settings.default_rolling_months
-    form.default_expiry_days = settings.default_expiry_days
-    form.default_stock_id = settings.default_stock_id || 'STOCK1'
+  form.db.server = settings.db.server;
+  form.db.port = settings.db.port;
+  form.db.database = settings.db.database;
+  form.db.username = settings.db.username;
+  form.db.password = settings.db.password;
+  form.db.use_windows_auth = settings.db.use_windows_auth;
+  form.db.trust_cert = settings.db.trust_cert;
+  form.db.connect_timeout_secs = settings.db.connect_timeout_secs;
+  form.default_rolling_months = settings.default_rolling_months;
+  form.default_expiry_days = settings.default_expiry_days;
+  form.default_stock_id = settings.default_stock_id || 'STOCK1';
 }
 
 onMounted(async () => {
-    try {
-        const settings = await getSettings()
-        populateForm(settings)
-    } catch (err: any) {
-        setStatus(`ไม่สามารถโหลดการตั้งค่าได้: ${err?.message ?? err}`, 'error')
-    } finally {
-        loading.value = false
-    }
-})
+  try {
+    const settings = await getSettings();
+    populateForm(settings);
+  } catch (err: unknown) {
+    setStatus(
+      `ไม่สามารถโหลดการตั้งค่าได้: ${err instanceof Error ? err.message : String(err)}`,
+      'error',
+    );
+  } finally {
+    loading.value = false;
+  }
+});
 
 async function handleTestConnection() {
-    testResult.value = ''
-    testingConnection.value = true
+  testResult.value = '';
+  testingConnection.value = true;
 
-    const dbConfig: DbConfig = { ...form.db }
+  const dbConfig: DbConfig = { ...form.db };
 
-    try {
-        const result = await testDbConnection(dbConfig)
-        testResult.value = result || 'เชื่อมต่อสำเร็จ!'
-        testResultType.value = 'success'
-        // Notify App shell so the status dot updates immediately
-        emit('settings-saved')
-    } catch (err: any) {
-        testResult.value = `การเชื่อมต่อล้มเหลว: ${err?.message ?? err}`
-        testResultType.value = 'error'
-    } finally {
-        testingConnection.value = false
-    }
+  try {
+    const result = await testDbConnection(dbConfig);
+    testResult.value = result || 'เชื่อมต่อสำเร็จ!';
+    testResultType.value = 'success';
+    // Notify App shell so the status dot updates immediately
+    emit('settings-saved');
+  } catch (err: unknown) {
+    testResult.value = `การเชื่อมต่อล้มเหลว: ${err instanceof Error ? err.message : String(err)}`;
+    testResultType.value = 'error';
+  } finally {
+    testingConnection.value = false;
+  }
 }
 
 async function handleSave() {
-    saving.value = true
-    clearStatus()
+  saving.value = true;
+  clearStatus();
 
-    const settingsToSave: AppSettings = {
-        db: { ...form.db },
-        default_rolling_months: form.default_rolling_months,
-        default_expiry_days: form.default_expiry_days,
-        default_stock_id: form.default_stock_id.trim() || 'STOCK1',
-    }
+  const settingsToSave: AppSettings = {
+    db: { ...form.db },
+    default_rolling_months: form.default_rolling_months,
+    default_expiry_days: form.default_expiry_days,
+    default_stock_id: form.default_stock_id.trim() || 'STOCK1',
+  };
 
-    try {
-        await saveSettings(settingsToSave)
-        setStatus('บันทึกการตั้งค่าเรียบร้อยแล้ว', 'success')
-        // Notify App shell to re-check DB connectivity with new credentials
-        emit('settings-saved')
-    } catch (err: any) {
-        setStatus(`ไม่สามารถบันทึกการตั้งค่าได้: ${err?.message ?? err}`, 'error')
-    } finally {
-        saving.value = false
-    }
+  try {
+    await saveSettings(settingsToSave);
+    setStatus('บันทึกการตั้งค่าเรียบร้อยแล้ว', 'success');
+    // Notify App shell to re-check DB connectivity with new credentials
+    emit('settings-saved');
+  } catch (err: unknown) {
+    setStatus(
+      `ไม่สามารถบันทึกการตั้งค่าได้: ${err instanceof Error ? err.message : String(err)}`,
+      'error',
+    );
+  } finally {
+    saving.value = false;
+  }
 }
 </script>
 

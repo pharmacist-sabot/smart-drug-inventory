@@ -89,43 +89,45 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { healthCheck } from '@/api'
+import { computed, onMounted, ref } from 'vue';
+import { healthCheck } from '@/api';
 
-const dbOk = ref<boolean | null>(null)
-const dbChecking = ref(false)
+const dbOk = ref<boolean | null>(null);
+const dbChecking = ref(false);
 
 const dbStatusClass = computed(() => {
-    if (dbOk.value === null) return 'checking'
-    return dbOk.value ? 'ok' : 'err'
-})
+  if (dbOk.value === null) return 'checking';
+  return dbOk.value ? 'ok' : 'err';
+});
 
 const dbStatusText = computed(() => {
-    if (dbOk.value === null) return 'CHECKING...'
-    if (dbOk.value) return 'CONNECTED'
-    return 'OFFLINE'
-})
+  if (dbOk.value === null) return 'CHECKING...';
+  if (dbOk.value) return 'CONNECTED';
+  return 'OFFLINE';
+});
 
 async function checkDb() {
-    if (dbChecking.value) return
-    dbChecking.value = true
-    dbOk.value = null
-    try {
-        const h = await healthCheck()
-        dbOk.value = h?.database?.status === 'ok'
-    } catch {
-        dbOk.value = false
-    } finally {
-        dbChecking.value = false
-    }
+  if (dbChecking.value) return;
+  dbChecking.value = true;
+  dbOk.value = null;
+  try {
+    const h = await healthCheck();
+    dbOk.value = h?.database?.status === 'ok';
+  } catch {
+    dbOk.value = false;
+  } finally {
+    dbChecking.value = false;
+  }
 }
 
 async function onSettingsSaved() {
-    await new Promise((r) => setTimeout(r, 400))
-    await checkDb()
+  await new Promise((r) => setTimeout(r, 400));
+  await checkDb();
 }
 
-onMounted(() => { checkDb() })
+onMounted(() => {
+  checkDb();
+});
 </script>
 
 <style scoped>

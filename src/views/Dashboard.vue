@@ -228,74 +228,92 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { useInventoryStore } from '@/stores/inventory'
-import GradeRing from '@/components/GradeRing.vue'
-import StatCard from '@/components/StatCard.vue'
-import DrugTable from '@/components/DrugTable.vue'
-import FilterBar from '@/components/FilterBar.vue'
-import type { FilterOption } from '@/components/FilterBar.vue'
-import type { DrugKpiSummary } from '@/types'
+import { computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import DrugTable from '@/components/DrugTable.vue';
+import type { FilterOption } from '@/components/FilterBar.vue';
+import FilterBar from '@/components/FilterBar.vue';
+import GradeRing from '@/components/GradeRing.vue';
+import StatCard from '@/components/StatCard.vue';
+import { useInventoryStore } from '@/stores/inventory';
+import type { DrugKpiSummary } from '@/types';
 
-const router = useRouter()
-const store = useInventoryStore()
+const router = useRouter();
+const store = useInventoryStore();
 
-const thaiMonths = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.']
-const currentBe = new Date().getFullYear() + 543
-const yearOptions = Array.from({ length: 5 }, (_, i) => currentBe - i)
+const thaiMonths = [
+  'ม.ค.',
+  'ก.พ.',
+  'มี.ค.',
+  'เม.ย.',
+  'พ.ค.',
+  'มิ.ย.',
+  'ก.ค.',
+  'ส.ค.',
+  'ก.ย.',
+  'ต.ค.',
+  'พ.ย.',
+  'ธ.ค.',
+];
+const currentBe = new Date().getFullYear() + 543;
+const yearOptions = Array.from({ length: 5 }, (_, i) => currentBe - i);
 
 // ─── Icons ───
-const iconStockout  = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`
-const iconLowStock  = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`
-const iconNormal    = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`
-const iconOverstock = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`
+const iconStockout = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`;
+const iconLowStock = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`;
+const iconNormal = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`;
+const iconOverstock = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`;
 
 // ─── Helpers ───
 function goDetail(drug: DrugKpiSummary) {
-    router.push({
-        path: `/drug/${drug.working_code}`,
-        query: { stock_id: store.stockId, year: String(store.selectedYear), mf: String(store.selectedMonthFrom), mt: String(store.selectedMonthTo) },
-    })
+  router.push({
+    path: `/drug/${drug.working_code}`,
+    query: {
+      stock_id: store.stockId,
+      year: String(store.selectedYear),
+      mf: String(store.selectedMonthFrom),
+      mt: String(store.selectedMonthTo),
+    },
+  });
 }
 
 function fmtValue(v: number | null | undefined): string {
-    if (v == null) return '—'
-    if (v >= 1_000_000) return (v / 1_000_000).toFixed(1) + 'M'
-    if (v >= 1_000) return (v / 1_000).toFixed(1) + 'K'
-    return Math.round(v).toLocaleString('th-TH')
+  if (v == null) return '—';
+  if (v >= 1_000_000) return `${(v / 1_000_000).toFixed(1)}M`;
+  if (v >= 1_000) return `${(v / 1_000).toFixed(1)}K`;
+  return Math.round(v).toLocaleString('th-TH');
 }
 
 // ─── Computed ───
 const dosSegments = computed(() => {
-    const s = store.summary
-    if (!s) return []
-    return [
-        { key: 'stockout', label: 'Stockout Risk', count: s.stockout_count, color: '#dc2626' },
-        { key: 'low',      label: 'Low Stock',     count: s.low_stock_count, color: '#d97706' },
-        { key: 'normal',   label: 'Normal',         count: s.normal_count,   color: '#16a34a' },
-        { key: 'overstock',label: 'Overstock',      count: s.overstock_count,color: '#2563eb' },
-    ]
-})
+  const s = store.summary;
+  if (!s) return [];
+  return [
+    { key: 'stockout', label: 'Stockout Risk', count: s.stockout_count, color: '#dc2626' },
+    { key: 'low', label: 'Low Stock', count: s.low_stock_count, color: '#d97706' },
+    { key: 'normal', label: 'Normal', count: s.normal_count, color: '#16a34a' },
+    { key: 'overstock', label: 'Overstock', count: s.overstock_count, color: '#2563eb' },
+  ];
+});
 
 const filterOptions = computed<FilterOption[]>(() => {
-    const s = store.summary
-    const total = store.drugs.length
-    const deadCount = store.drugs.filter((d) => d.is_dead_stock).length
-    return [
-        { key: 'all',           label: 'ทั้งหมด', count: total,                  cls: 'all' },
-        { key: 'stockout_risk', label: 'Stockout', count: s?.stockout_count ?? 0, cls: 'danger' },
-        { key: 'low_stock',     label: 'Low Stock', count: s?.low_stock_count ?? 0, cls: 'warn' },
-        { key: 'normal',        label: 'ปกติ',     count: s?.normal_count ?? 0,   cls: 'ok' },
-        { key: 'overstock',     label: 'Overstock', count: s?.overstock_count ?? 0, cls: 'info' },
-        { key: 'dead_stock',    label: 'Dead Stock', count: deadCount,             cls: 'dead' },
-    ]
-})
+  const s = store.summary;
+  const total = store.drugs.length;
+  const deadCount = store.drugs.filter((d) => d.is_dead_stock).length;
+  return [
+    { key: 'all', label: 'ทั้งหมด', count: total, cls: 'all' },
+    { key: 'stockout_risk', label: 'Stockout', count: s?.stockout_count ?? 0, cls: 'danger' },
+    { key: 'low_stock', label: 'Low Stock', count: s?.low_stock_count ?? 0, cls: 'warn' },
+    { key: 'normal', label: 'ปกติ', count: s?.normal_count ?? 0, cls: 'ok' },
+    { key: 'overstock', label: 'Overstock', count: s?.overstock_count ?? 0, cls: 'info' },
+    { key: 'dead_stock', label: 'Dead Stock', count: deadCount, cls: 'dead' },
+  ];
+});
 
 onMounted(async () => {
-    await store.initStock()
-    await store.loadData()
-})
+  await store.initStock();
+  await store.loadData();
+});
 </script>
 
 <style scoped>

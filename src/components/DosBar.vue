@@ -14,34 +14,38 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import type { DosStatus } from '@/types'
+import { computed } from 'vue';
+import type { DosStatus } from '@/types';
 
-const props = withDefaults(
-    defineProps<{ dos: number | null; status: DosStatus }>(),
-    { dos: null, status: 'normal' },
-)
+const props = withDefaults(defineProps<{ dos: number | null; status: DosStatus }>(), {
+  dos: null,
+  status: 'normal',
+});
 
-const MAX_VIS = 120
+const MAX_VIS = 120;
 
 const fillPct = computed(() => {
-    if (props.dos === null) return 0
-    return Math.min((props.dos / MAX_VIS) * 100, 100)
-})
+  if (props.dos === null) return 0;
+  return Math.min((props.dos / MAX_VIS) * 100, 100);
+});
 
 const colorMap: Record<DosStatus, string> = {
-    stockout_risk: '#dc2626', low_stock: '#d97706', normal: '#16a34a', overstock: '#2563eb',
-}
-const color = computed(() => colorMap[props.status] || '#8b9ab0')
+  stockout_risk: '#dc2626',
+  low_stock: '#d97706',
+  normal: '#16a34a',
+  overstock: '#2563eb',
+};
+const color = computed(() => colorMap[props.status] || '#8b9ab0');
 
 const labelMap: Record<DosStatus, string> = {
-    stockout_risk: 'เสี่ยง Stockout', low_stock: 'สต็อกน้อย', normal: 'ปกติ', overstock: 'เกินกำหนด',
-}
-const label = computed(() => labelMap[props.status] || '-')
+  stockout_risk: 'เสี่ยง Stockout',
+  low_stock: 'สต็อกน้อย',
+  normal: 'ปกติ',
+  overstock: 'เกินกำหนด',
+};
+const label = computed(() => labelMap[props.status] || '-');
 
-const dosDisplay = computed(() =>
-    props.dos === null ? 'ไม่มีการจ่าย' : `${props.dos} วัน`,
-)
+const dosDisplay = computed(() => (props.dos === null ? 'ไม่มีการจ่าย' : `${props.dos} วัน`));
 </script>
 
 <style scoped>

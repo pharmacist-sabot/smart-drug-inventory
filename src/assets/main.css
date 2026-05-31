@@ -1,29 +1,35 @@
-@import './css/tokens.css';
-@import './css/base.css';
-@import './css/typography.css';
-@import './css/components.css';
-@import './css/animations.css';
-@import './css/utilities.css';
+@import "./css/tokens.css";
+@import "./css/base.css";
+@import "./css/typography.css";
+@import "./css/components.css";
+@import "./css/animations.css";
+@import "./css/utilities.css";
 
 :root {
-    /* ── Legacy aliases (deprecated — migrate to direct tokens) ── */
-    --bg-void: var(--color-canvas-dark);
-    --bg-surface: var(--color-surface-dark-soft);
-    --bg-elevated: var(--color-surface-dark-elevated);
-    --bg-hover: rgba(255, 255, 255, 0.06);
-    --text-primary: var(--color-ink);
-    --text-secondary: #555555;
-    --text-muted: var(--color-body);
-    --accent: var(--color-accent-mint);
-    --border-soft: var(--color-hairline);
-    --border-dim: var(--color-hairline);
-    --border-med: #cccccc;
-    --radius-sm: var(--rounded-sm);
-    --radius-md: var(--rounded-md);
-    --radius-lg: var(--rounded-md);
-    --font-body: var(--font-display);
+  /* ── Legacy aliases (deprecated — migrate to direct tokens) ── */
+  --bg-void: var(--color-canvas-dark);
+  --bg-surface: var(--color-surface-dark-soft);
+  --bg-elevated: var(--color-surface-dark-elevated);
+  --bg-hover: rgba(255, 255, 255, 0.06);
+  --text-primary: var(--color-ink);
+  --text-secondary: #555555;
+  --text-muted: var(--color-body);
+  --accent: var(--color-accent-mint);
+  --border-soft: var(--color-hairline);
+  --border-dim: var(--color-hairline);
+  --border-med: #cccccc;
+  --radius-sm: var(--rounded-sm);
+  --radius-md: var(--rounded-md);
+  --radius-lg: var(--rounded-md);
+  --font-body: var(--font-display);
 }
 
-.text-primary { color: var(--color-ink); }
-.text-secondary { color: #555555; }
-.text-muted { color: var(--color-body); }
+.text-primary {
+  color: var(--color-ink);
+}
+.text-secondary {
+  color: #555555;
+}
+.text-muted {
+  color: var(--color-body);
+}
