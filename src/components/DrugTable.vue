@@ -29,9 +29,11 @@
                 </thead>
                 <tbody>
                     <tr v-for="drug in paginated" :key="drug.working_code" class="drug-row" @click="$emit('select', drug)">
-                        <td class="drug-name-cell">
-                            <span class="drug-name">{{ drug.drug_name }}</span>
-                            <span v-if="drug.is_dead_stock" class="dead-badge">DEAD</span>
+                        <td class="drug-name-td">
+                            <div class="drug-name-cell">
+                                <span class="drug-name">{{ drug.drug_name }}</span>
+                                <span v-if="drug.is_dead_stock" class="dead-badge">DEAD</span>
+                            </div>
                         </td>
                         <td><span class="nlem-badge">{{ drug.nlem || '—' }}</span></td>
                         <td class="num mono">{{ fmt(drug.rm_qty) }}</td>
@@ -208,8 +210,8 @@ const gradeColor = (g: Grade): string => {
     padding: var(--space-md) var(--space-lg);
     font-size: 13.5px;
     border-bottom: 1px solid var(--color-hairline);
-    vertical-align: middle;
     border-left: 2px solid transparent;
+    vertical-align: middle;
     color: var(--color-ink);
 }
 
@@ -219,7 +221,7 @@ const gradeColor = (g: Grade): string => {
     display: flex;
     align-items: center;
     gap: var(--space-sm);
-    max-width: 280px;
+    overflow: hidden;
 }
 
 .drug-name {
