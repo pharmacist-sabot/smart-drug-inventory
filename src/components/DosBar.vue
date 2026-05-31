@@ -29,13 +29,13 @@ const fillPct = computed(() => {
   return Math.min((props.dos / MAX_VIS) * 100, 100);
 });
 
-const colorMap: Record<DosStatus, string> = {
-  stockout_risk: '#dc2626',
-  low_stock: '#d97706',
-  normal: '#16a34a',
-  overstock: '#2563eb',
-};
-const color = computed(() => colorMap[props.status] || '#8b9ab0');
+  const colorMap: Record<DosStatus, string> = {
+    stockout_risk: 'var(--status-danger)',
+    low_stock: 'var(--status-warn)',
+    normal: 'var(--status-ok)',
+    overstock: 'var(--status-info)',
+  };
+  const color = computed(() => colorMap[props.status] || 'var(--color-body)');
 
 const labelMap: Record<DosStatus, string> = {
   stockout_risk: 'เสี่ยง Stockout',

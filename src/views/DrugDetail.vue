@@ -444,21 +444,21 @@ const dailyUsage = computed(() => {
 });
 
 const dosColor = computed(() => {
-  if (!drug.value) return '#8b9ab0';
+  if (!drug.value) return 'var(--color-body)';
   const map: Record<string, string> = {
-    stockout_risk: '#ef4444',
-    low_stock: '#f59e0b',
-    normal: '#22c55e',
-    overstock: '#3b82f6',
+    stockout_risk: 'var(--status-danger)',
+    low_stock: 'var(--status-warn)',
+    normal: 'var(--status-ok)',
+    overstock: 'var(--status-info)',
   };
-  return map[drug.value.dos_status] || '#8b9ab0';
+  return map[drug.value.dos_status] || 'var(--color-body)';
 });
 
 function scoreColor(s: number): string {
-  if (s >= 80) return '#22c55e';
-  if (s >= 60) return '#f59e0b';
-  if (s >= 40) return '#f97316';
-  return '#ef4444';
+  if (s >= 80) return 'var(--status-ok)';
+  if (s >= 60) return 'var(--status-warn)';
+  if (s >= 40) return 'var(--status-warn)';
+  return 'var(--status-danger)';
 }
 
 // ── score weights ────────────────────────────────────────
@@ -605,7 +605,7 @@ onMounted(fetchData);
 .retry-btn {
     background: var(--color-elevated-bg);
     border: 1px solid var(--color-hairline);
-    color: #555555;
+    color: var(--color-secondary);
     padding: 9px 22px;
     border-radius: var(--rounded-sm);
     cursor: pointer;
@@ -926,7 +926,7 @@ onMounted(fetchData);
     font-weight: var(--font-weight-bold);
     color: var(--status-danger);
 }
-.dead-val-ok { font-size: 13px; color: #555555; }
+.dead-val-ok { font-size: 13px; color: var(--color-secondary); }
 
 .accuracy-main { margin-bottom: 4px; }
 .accuracy-discrepancy {
@@ -953,7 +953,7 @@ onMounted(fetchData);
     justify-content: space-between;
 }
 .acc-label { font-size: 12px; color: var(--color-body); }
-.acc-value { font-size: 14px; color: #555555; }
+.acc-value { font-size: 14px; color: var(--color-secondary); }
 .diff-row {
     border-top: 1px solid var(--color-hairline);
     padding-top: 8px;
@@ -1107,7 +1107,7 @@ onMounted(fetchData);
 }
 .score-col-weighted {
     font-size: 14px;
-    color: #555555;
+    color: var(--color-secondary);
     text-align: right;
 }
 
@@ -1168,7 +1168,7 @@ onMounted(fetchData);
     align-items: center;
     border-bottom: 1px solid var(--color-hairline);
     font-size: 13.5px;
-    color: #555555;
+    color: var(--color-secondary);
     transition: background var(--dur-fast) var(--ease);
 }
 .expiry-row:last-child { border-bottom: none; }

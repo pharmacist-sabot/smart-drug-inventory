@@ -35,13 +35,13 @@ const props = withDefaults(
   { size: 100, strokeW: 6 },
 );
 
-const GRADE_COLORS: Record<Grade, string> = {
-  A: '#16a34a',
-  B: '#d97706',
-  C: '#dc2626',
-  D: '#6b7280',
-};
-const gradeColor = computed(() => GRADE_COLORS[props.grade] ?? '#6b7280');
+  const GRADE_COLORS: Record<Grade, string> = {
+    A: 'var(--status-ok)',
+    B: 'var(--status-warn)',
+    C: 'var(--status-danger)',
+    D: 'var(--grade-d)',
+  };
+  const gradeColor = computed(() => GRADE_COLORS[props.grade] ?? 'var(--grade-d)');
 
 const r = computed(() => props.size / 2 - props.strokeW / 2 - 2);
 const circumference = computed(() => 2 * Math.PI * r.value);

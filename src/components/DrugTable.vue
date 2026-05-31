@@ -131,8 +131,8 @@ const statusLabel = (s: DosStatus | null): string => {
 };
 
 const gradeColor = (g: Grade): string => {
-  const map: Record<Grade, string> = { A: '#16a34a', B: '#d97706', C: '#dc2626', D: '#6b7280' };
-  return map[g] ?? '#6b7280';
+  const map: Record<Grade, string> = { A: 'var(--status-ok)', B: 'var(--status-warn)', C: 'var(--status-danger)', D: 'var(--grade-d)' };
+  return map[g] ?? 'var(--grade-d)';
 };
 </script>
 

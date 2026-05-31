@@ -64,7 +64,7 @@ defineEmits<{ 'update:modelValue': [value: string] }>();
 
 .toggle-pill.active {
     background: var(--color-primary);
-    color: #ffffff;
+    color: var(--color-canvas);
     border-color: var(--color-primary);
 }
 
@@ -85,7 +85,7 @@ defineEmits<{ 'update:modelValue': [value: string] }>();
 .toggle-pill.info   .pill-dot { background: var(--status-info);   opacity: 1; }
 .toggle-pill.dead   .pill-dot { background: var(--violet-600);    opacity: 1; }
 
-.toggle-pill.active .pill-dot { background: #ffffff; }
+.toggle-pill.active .pill-dot { background: var(--color-canvas); }
 
 .pill-label { flex: 1; }
 

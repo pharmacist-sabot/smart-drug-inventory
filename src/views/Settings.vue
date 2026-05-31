@@ -459,7 +459,7 @@ async function handleSave() {
 .form-input {
     width: 100%;
     padding: 10px var(--space-lg);
-    background: #fff;
+    background: var(--color-canvas);
     border: 1px solid var(--color-hairline);
     border-radius: var(--rounded-sm);
     color: var(--color-ink);
@@ -513,7 +513,7 @@ async function handleSave() {
 }
 
 .toggle-input:checked + .toggle-track { background: var(--color-ink); border-color: var(--color-ink); }
-.toggle-input:checked + .toggle-track .toggle-thumb { transform: translateX(20px); background: #fff; }
+.toggle-input:checked + .toggle-track .toggle-thumb { transform: translateX(20px); background: var(--color-canvas); }
 .toggle-input:focus-visible + .toggle-track { box-shadow: 0 0 0 2px rgba(0,0,0,0.1); }
 
 .toggle-text { font-size: 14px; color: var(--color-body); line-height: 1.4; }
