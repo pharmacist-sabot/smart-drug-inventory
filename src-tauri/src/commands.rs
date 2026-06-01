@@ -1,19 +1,16 @@
 //! commands.rs — Tauri IPC commands invoked from the Vue frontend
 //!
 //! Each `#[tauri::command]` function is callable from TypeScript via `invoke()`.
-//! All database access is read-only.
+//! All business logic is delegated to workspace crates.
 
 use std::collections::HashMap;
 
-use crate::database;
-use crate::kpi::{
+use data_access::{self, Warehouse, fetch_last_cost, safe_unit_cost};
+use kpi_core::{
   DrugKpi, DrugKpiSummary, ExpiryStatus, WarehouseKpi, calculate_drug_kpi, calculate_warehouse_kpi,
+  RawExpiryLotRow,
 };
-use crate::queries::{
-  Warehouse, fetch_drug_movements, fetch_last_cost, fetch_near_expiry, fetch_warehouses,
-  period_label, safe_unit_cost, to_date_range,
-};
-use crate::settings::{self, AppSettings, DbConfig};
+use settings::{self, AppSettings, DbConfig};
 
 // ─────────────────────────────────────────────
 // Settings commands
@@ -30,14 +27,14 @@ pub async fn get_settings() -> Result<AppSettings, String> {
 pub async fn save_settings(new_settings: AppSettings) -> Result<(), String> {
   settings::update_settings(new_settings)?;
   // Reconnect pool with new DB config
-  database::reconnect_pool().await?;
+  data_access::reconnect_pool().await?;
   Ok(())
 }
 
 /// Test a database connection with the given config (without saving).
 #[tauri::command]
 pub async fn test_db_connection(db: DbConfig) -> Result<String, String> {
-  database::test_connection_with(&db).await
+  data_access::test_connection_with(&db).await
 }
 
 // ─────────────────────────────────────────────
@@ -59,7 +56,7 @@ pub struct DatabaseHealth {
 
 #[tauri::command]
 pub async fn health_check() -> Result<HealthResult, String> {
-  match database::test_connection().await {
+  match data_access::test_connection().await {
     Ok(version) => Ok(HealthResult {
       api: "ok".to_string(),
       database: DatabaseHealth {
@@ -85,8 +82,8 @@ pub async fn health_check() -> Result<HealthResult, String> {
 
 #[tauri::command]
 pub async fn get_warehouses() -> Result<Vec<Warehouse>, String> {
-  let mut conn = database::get_conn().await?;
-  fetch_warehouses(&mut conn).await
+  let mut conn = data_access::get_conn().await?;
+  data_access::fetch_warehouses(&mut conn).await
 }
 
 // ─────────────────────────────────────────────
@@ -113,12 +110,12 @@ pub async fn get_kpi_summary(
   let rolling = rolling_months.unwrap_or(app_settings.default_rolling_months);
   let exp_days = expiry_days.unwrap_or(app_settings.default_expiry_days);
 
-  let (date_from, date_to) = to_date_range(year, month_from, month_to);
-  let period = period_label(year, month_from, month_to);
+  let (date_from, date_to) = data_access::to_date_range(year, month_from, month_to);
+  let period = data_access::period_label(year, month_from, month_to);
 
   // Fetch warehouse name
-  let mut conn = database::get_conn().await?;
-  let warehouses = fetch_warehouses(&mut conn).await?;
+  let mut conn = data_access::get_conn().await?;
+  let warehouses = data_access::fetch_warehouses(&mut conn).await?;
   let stock_name = warehouses
     .iter()
     .find(|w| w.dept_id == stock_id)
@@ -126,18 +123,19 @@ pub async fn get_kpi_summary(
   drop(conn);
 
   // Fetch drug movements
-  let mut conn = database::get_conn().await?;
+  let mut conn = data_access::get_conn().await?;
   let movement_result =
-    fetch_drug_movements(&mut conn, &stock_id, date_from, date_to, rolling).await?;
+    data_access::fetch_drug_movements(&mut conn, &stock_id, date_from, date_to, rolling).await?;
   drop(conn);
 
   // Fetch near-expiry lots
-  let mut conn = database::get_conn().await?;
-  let expiry_rows = fetch_near_expiry(&mut conn, &stock_id, date_to, exp_days).await?;
+  let mut conn = data_access::get_conn().await?;
+  let expiry_rows =
+    data_access::fetch_near_expiry(&mut conn, &stock_id, date_to, exp_days).await?;
   drop(conn);
 
   // Build expiry map: working_code → lots
-  let mut expiry_map: HashMap<String, Vec<crate::kpi::RawExpiryLotRow>> = HashMap::new();
+  let mut expiry_map: HashMap<String, Vec<RawExpiryLotRow>> = HashMap::new();
   for lot in expiry_rows {
     expiry_map
       .entry(lot.WORKING_CODE.clone())
@@ -149,7 +147,7 @@ pub async fn get_kpi_summary(
   let mut drug_kpis: Vec<DrugKpi> = Vec::with_capacity(movement_result.rows.len());
   for row in &movement_result.rows {
     let unit_cost = if row.RM_QTY.unwrap_or(0.0) == 0.0 {
-      let mut conn2 = database::get_conn().await?;
+      let mut conn2 = data_access::get_conn().await?;
       let cost_data = fetch_last_cost(&mut conn2, &row.WORKING_CODE).await?;
       safe_unit_cost(cost_data)
     } else {
@@ -197,18 +195,19 @@ pub async fn get_drug_kpi_list(
   let rolling = rolling_months.unwrap_or(app_settings.default_rolling_months);
   let exp_days = expiry_days.unwrap_or(app_settings.default_expiry_days);
 
-  let (date_from, date_to) = to_date_range(year, month_from, month_to);
+  let (date_from, date_to) = data_access::to_date_range(year, month_from, month_to);
 
-  let mut conn = database::get_conn().await?;
+  let mut conn = data_access::get_conn().await?;
   let movement_result =
-    fetch_drug_movements(&mut conn, &stock_id, date_from, date_to, rolling).await?;
+    data_access::fetch_drug_movements(&mut conn, &stock_id, date_from, date_to, rolling).await?;
   drop(conn);
 
-  let mut conn = database::get_conn().await?;
-  let expiry_rows = fetch_near_expiry(&mut conn, &stock_id, date_to, exp_days).await?;
+  let mut conn = data_access::get_conn().await?;
+  let expiry_rows =
+    data_access::fetch_near_expiry(&mut conn, &stock_id, date_to, exp_days).await?;
   drop(conn);
 
-  let mut expiry_map: HashMap<String, Vec<crate::kpi::RawExpiryLotRow>> = HashMap::new();
+  let mut expiry_map: HashMap<String, Vec<RawExpiryLotRow>> = HashMap::new();
   for lot in expiry_rows {
     expiry_map
       .entry(lot.WORKING_CODE.clone())
@@ -219,7 +218,7 @@ pub async fn get_drug_kpi_list(
   let mut drug_kpis: Vec<DrugKpi> = Vec::with_capacity(movement_result.rows.len());
   for row in &movement_result.rows {
     let unit_cost = if row.RM_QTY.unwrap_or(0.0) == 0.0 {
-      let mut conn2 = database::get_conn().await?;
+      let mut conn2 = data_access::get_conn().await?;
       let cost_data = fetch_last_cost(&mut conn2, &row.WORKING_CODE).await?;
       safe_unit_cost(cost_data)
     } else {
@@ -263,7 +262,7 @@ pub async fn get_drug_kpi_list(
       }
       true
     })
-    .map(super::kpi::DrugKpi::to_summary)
+    .map(DrugKpi::to_summary)
     .collect();
 
   Ok(filtered)
@@ -287,11 +286,11 @@ pub async fn get_drug_kpi_detail(
   let rolling = rolling_months.unwrap_or(app_settings.default_rolling_months);
   let exp_days = expiry_days.unwrap_or(app_settings.default_expiry_days);
 
-  let (date_from, date_to) = to_date_range(year, month_from, month_to);
+  let (date_from, date_to) = data_access::to_date_range(year, month_from, month_to);
 
-  let mut conn = database::get_conn().await?;
+  let mut conn = data_access::get_conn().await?;
   let movement_result =
-    fetch_drug_movements(&mut conn, &stock_id, date_from, date_to, rolling).await?;
+    data_access::fetch_drug_movements(&mut conn, &stock_id, date_from, date_to, rolling).await?;
   drop(conn);
 
   let target = movement_result
@@ -302,15 +301,16 @@ pub async fn get_drug_kpi_detail(
     .clone();
 
   let unit_cost = if target.RM_QTY.unwrap_or(0.0) == 0.0 {
-    let mut conn2 = database::get_conn().await?;
+    let mut conn2 = data_access::get_conn().await?;
     let cost_data = fetch_last_cost(&mut conn2, &working_code).await?;
     safe_unit_cost(cost_data)
   } else {
     0.0
   };
 
-  let mut conn = database::get_conn().await?;
-  let expiry_rows = fetch_near_expiry(&mut conn, &stock_id, date_to, exp_days).await?;
+  let mut conn = data_access::get_conn().await?;
+  let expiry_rows =
+    data_access::fetch_near_expiry(&mut conn, &stock_id, date_to, exp_days).await?;
   drop(conn);
 
   let lots: Vec<_> = expiry_rows

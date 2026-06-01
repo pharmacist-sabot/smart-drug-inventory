@@ -1,0 +1,8 @@
+[workspace]
+resolver = "3"
+members = [
+  "src-tauri",
+  "crates/kpi-core",
+  "crates/settings",
+  "crates/data-access",
+]

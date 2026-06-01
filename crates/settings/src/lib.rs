@@ -1,4 +1,4 @@
-//! settings.rs — Persistent application settings (JSON file in app data directory)
+//! settings — Persistent application settings (JSON file in app data directory)
 //!
 //! Stores database connection parameters and app preferences.
 //! Settings file location: `{app_data_dir}/settings.json`

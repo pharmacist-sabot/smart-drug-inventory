@@ -1,0 +1,22 @@
+[package]
+name = "data-access"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT"
+repository = "https://github.com/suradet-ps/one-pharm"
+description = "Database connection pool and SQL queries for INVS"
+authors = ["rxdevman"]
+
+[dependencies]
+tiberius = { version = "0.12", default-features = false, features = ["rustls", "chrono"] }
+tokio = { version = "1", features = ["full"] }
+tokio-util = { version = "0.7", features = ["compat"] }
+bb8 = "0.9"
+bb8-tiberius = "0.16"
+chrono = { version = "0.4", features = ["serde"] }
+serde = { version = "1.0", features = ["derive"] }
+log = "0.4"
+
+kpi-core = { path = "../kpi-core" }
+settings = { path = "../settings" }

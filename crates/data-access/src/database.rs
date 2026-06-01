@@ -10,7 +10,7 @@ use tiberius::{AuthMethod, Config, EncryptionLevel};
 use tokio::net::TcpStream;
 use tokio_util::compat::TokioAsyncWriteCompatExt;
 
-use crate::settings::{DbConfig, get_db_config};
+use settings::{DbConfig, get_db_config};
 
 // ---------------------------------------------------------------------------
 // Global pool — we store a raw pointer to a leaked Box<Pool> so that we

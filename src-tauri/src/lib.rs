@@ -1,12 +1,10 @@
 //! Smart Drug Inventory — Tauri application entry point
 //!
-//! Registers all modules and exposes Tauri IPC commands to the Vue frontend.
+//! Thin wrapper that registers IPC commands and delegates all business
+//! logic to workspace crates (`crates/kpi-core`, `crates/settings`,
+//! `crates/data-access`).
 
 mod commands;
-mod database;
-mod kpi;
-mod queries;
-mod settings;
 
 use commands::{
   get_drug_kpi_detail, get_drug_kpi_list, get_kpi_summary, get_settings, get_warehouses,
@@ -22,10 +20,10 @@ pub fn run() {
       // We use `tauri::async_runtime::spawn` so that startup is not blocked
       // if the DB is unreachable — the user can fix settings via the UI.
       tauri::async_runtime::spawn(async {
-        match database::init_pool().await {
+        match data_access::init_pool().await {
           Ok(()) => {
             log::info!("Database pool initialised successfully");
-            match database::test_connection().await {
+            match data_access::test_connection().await {
               Ok(version) => log::info!("Connected to SQL Server: {version}"),
               Err(e) => log::warn!("DB test query failed (pool ok): {e}"),
             }

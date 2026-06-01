@@ -3,22 +3,10 @@
 //! Ported from the Python `queries.py` module.
 //!
 //! All queries are read-only. This system never writes data to INVS.
-//!
-//! Rolling Window DOS (Approach 2):
-//! ─────────────────────────────────────────────────────────────────
-//! RM_QTY      = snapshot at end of display period
-//! DIS_QTY     = dispensed qty in display period (for display / Turnover)
-//! ROLLING_DIS = dispensed qty over rolling_months (for DOS)
-//! rolling_days = actual days in rolling window
-//!
-//! daily_usage = ROLLING_DIS / rolling_days
-//! DOS         = RM_QTY / daily_usage
-//! ─────────────────────────────────────────────────────────────────
 
-use chrono::NaiveDate;
+use chrono::{Datelike, NaiveDate};
+use kpi_core::{RawDrugRow, RawExpiryLotRow};
 use tiberius::{Row, numeric::Numeric};
-
-use crate::kpi::{RawDrugRow, RawExpiryLotRow};
 
 // ─────────────────────────────────────────────
 // Date helpers
@@ -104,8 +92,6 @@ pub fn period_label(year_be: i32, month_from: u32, month_to: u32) -> String {
     format!("{mf} – {mt} {year_be}")
   }
 }
-
-use chrono::Datelike;
 
 // ─────────────────────────────────────────────
 // SQL Statements
@@ -287,29 +273,22 @@ ORDER BY c.EXPIRED_DATE ASC
 
 /// Try to get a f64 from a tiberius Row column, handling various SQL numeric types.
 fn get_f64(row: &Row, col: &str) -> Option<f64> {
-  // Try f64 directly (FLOAT)
   if let Ok(Some(v)) = row.try_get::<f64, _>(col) {
     return Some(v);
   }
-  // Try f32 (REAL)
   if let Ok(Some(v)) = row.try_get::<f32, _>(col) {
     return Some(f64::from(v));
   }
-  // Try i32 (INT)
   if let Ok(Some(v)) = row.try_get::<i32, _>(col) {
     return Some(f64::from(v));
   }
-  // Try i64 (BIGINT)
   if let Ok(Some(v)) = row.try_get::<i64, _>(col) {
     return Some(v as f64);
   }
-  // Try i16 (SMALLINT)
   if let Ok(Some(v)) = row.try_get::<i16, _>(col) {
     return Some(f64::from(v));
   }
-  // Try Numeric (DECIMAL/NUMERIC)
   if let Ok(Some(v)) = row.try_get::<Numeric, _>(col) {
-    // Numeric can be converted to f64 via its int_part and scale
     let s = format!("{v}");
     if let Ok(f) = s.parse::<f64>() {
       return Some(f);
@@ -362,7 +341,6 @@ fn get_opt_i64(row: &Row, col: &str) -> Option<i64> {
   if let Ok(Some(v)) = row.try_get::<i16, _>(col) {
     return Some(i64::from(v));
   }
-  // Try Numeric
   if let Ok(Some(v)) = row.try_get::<Numeric, _>(col) {
     let s = format!("{v}");
     if let Ok(i) = s.parse::<i64>() {

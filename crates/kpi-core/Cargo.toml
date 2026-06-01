@@ -1,0 +1,12 @@
+[package]
+name = "kpi-core"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT"
+repository = "https://github.com/suradet-ps/one-pharm"
+description = "Pure KPI calculation logic for drug inventory analytics"
+authors = ["rxdevman"]
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }

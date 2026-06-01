@@ -1,8 +1,8 @@
-//! kpi.rs — KPI calculation logic
+//! kpi-core — Pure KPI calculation logic for drug inventory analytics
 //!
 //! Ported from the Python `kpi.py` module.
 //!
-//! Input : raw drug movement data from `queries::fetch_drug_movements()`
+//! Input : raw drug movement data from `data_access::fetch_drug_movements()`
 //! Output: `DrugKpi` / `WarehouseKpi` with scores and grades
 //!
 //! Rolling Window DOS:
@@ -509,14 +509,14 @@ pub fn calculate_drug_kpi(
 
   // ── Scores ──
   let t_score = score_turnover(turnover);
-  let d_score = score_dos(dos);
-  let ds_score = score_dead_stock(is_dead, dead_value, rm_value);
+  let dos_score_val = score_dos(dos);
+  let dead_score = score_dead_stock(is_dead, dead_value, rm_value);
   let a_score = score_accuracy(discrepancy, rm_qty);
   let e_score = score_expiry(&processed_lots);
 
   let overall = t_score * W_TURNOVER
-    + d_score * W_DOS
-    + ds_score * W_DEAD_STOCK
+    + dos_score_val * W_DOS
+    + dead_score * W_DEAD_STOCK
     + a_score * W_ACCURACY
     + e_score * W_EXPIRY;
 
@@ -549,8 +549,8 @@ pub fn calculate_drug_kpi(
     near_expiry_qty: round2(near_expiry_qty),
     near_expiry_value: round2(near_expiry_value),
     turnover_score: round1(t_score),
-    dos_score: round1(d_score),
-    dead_stock_score: round1(ds_score),
+    dos_score: round1(dos_score_val),
+    dead_stock_score: round1(dead_score),
     accuracy_score: round1(a_score),
     expiry_score: round1(e_score),
     overall_score: round1(overall),
@@ -959,7 +959,7 @@ mod tests {
       RawExpiryLotRow {
         WORKING_CODE: "MED003".to_string(),
         LOT_NO: Some("LOT-A".to_string()),
-        EXPIRED_DATE: Some(20250601),
+        EXPIRED_DATE: Some(20_250_601),
         days_to_expire: Some(15),
         remain_qty_lot: Some(20.0),
         remain_value_lot: Some(2000.0),
@@ -967,7 +967,7 @@ mod tests {
       RawExpiryLotRow {
         WORKING_CODE: "MED003".to_string(),
         LOT_NO: Some("LOT-B".to_string()),
-        EXPIRED_DATE: Some(20260101),
+        EXPIRED_DATE: Some(20_260_101),
         days_to_expire: Some(200),
         remain_qty_lot: Some(40.0),
         remain_value_lot: Some(4000.0),
@@ -1037,9 +1037,9 @@ mod tests {
 
   #[test]
   fn test_rounding_helpers() {
-    assert_eq!(round1(3.14159), 3.1);
-    assert_eq!(round2(3.14159), 3.14);
-    assert_eq!(round3(3.14159), 3.142);
-    assert_eq!(round4(3.14159), 3.1416);
+    assert_eq!(round1(4.56789), 4.6);
+    assert_eq!(round2(4.56789), 4.57);
+    assert_eq!(round3(4.56789), 4.568);
+    assert_eq!(round4(4.56789), 4.5679);
   }
 }

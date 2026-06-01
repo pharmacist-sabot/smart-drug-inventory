@@ -43,8 +43,7 @@ project-root/
 - Run `cargo +nightly miri test -p <crate-name>` for pure logic changes when possible.
 
 ### 4. Dependency Management
-- Always declare shared dependencies in `[workspace.dependencies]` at root `Cargo.toml`.
-- Member crates MUST inherit versions via `{ workspace = true }`.
+- Each crate declares its own dependency versions explicitly in its own `Cargo.toml`. Do NOT use `{ workspace = true }` to inherit from root — this keeps each crate self-contained and independently understandable.
 - When suggesting new dependencies, verify they exist on crates.io and are actively maintained.
 - If `cargo-vet` is configured, never bypass audit requirements. Use `cargo vet certify` for reviewed crates.
 
@@ -68,7 +67,7 @@ npm run type-check
 When creating a new crate under `crates/`:
 1. Use `cargo new --lib crates/<name>`
 2. Add it to `[workspace.members]` in root `Cargo.toml`
-3. Inherit shared dependencies via `[workspace.dependencies]`
+3. Specify all dependency versions explicitly in the crate's own `Cargo.toml`
 4. Ensure it has ZERO dependency on `tauri` or any FFI/system crate
 5. Match existing `#![warn(...)]` attributes from sibling crates
 

@@ -1,0 +1,16 @@
+[package]
+name = "settings"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT"
+repository = "https://github.com/suradet-ps/one-pharm"
+description = "Persistent application settings for OnePharm"
+authors = ["rxdevman"]
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+directories = "6"
+log = "0.4"
+once_cell = "1"

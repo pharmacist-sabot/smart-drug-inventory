@@ -11,7 +11,7 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "gen-icons": "node scripts/gen-icons.cjs",
-    "fmt:cargo": "cd src-tauri && cargo fmt",
+    "fmt:cargo": "cargo fmt --all",
     "fmt": "biome format --write .",
     "fmt:check": "biome format .",
     "lint": "biome lint .",
